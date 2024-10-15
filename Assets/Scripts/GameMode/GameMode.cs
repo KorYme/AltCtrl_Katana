@@ -6,10 +6,12 @@ public enum GamemodeType
     Tutorial = 1,
 }
 
-public abstract class GameModeManager : MonoBehaviour
+public abstract class GameMode : MonoBehaviour
 {
     public abstract GamemodeType Type { get; }
-
+    
+    protected Round _currentRound;
+    
     public abstract void StartGameMode();
     public abstract void StopGameMode();
     public abstract void UpdateGameMode(float deltaTime);

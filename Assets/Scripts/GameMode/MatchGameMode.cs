@@ -1,24 +1,22 @@
 using UnityEngine;
 
-public class MatchManager : GameModeManager
+public class MatchGameMode : GameMode
 {
     public override GamemodeType Type => GamemodeType.Match;
-
-    [SerializeField] private RoundData _roundData;
-
-    private Round _currentRound;
+    
+    [SerializeField] protected RoundData _climaxRoundData;
 
     public override void StartGameMode()
     {
         // Open the scene and play animation
         // Wait for animation to end
-        // Wait for player to be ready => Add a mehod in InputManager
-        // Start round
+        // Wait for player to be ready => Add a method in InputManager
+        _currentRound = new ClimaxRound(_climaxRoundData);
     }
 
     public override void StopGameMode()
     {
-        // Stop round
+        _currentRound?.StopRound();
         _currentRound = null;
     }
 

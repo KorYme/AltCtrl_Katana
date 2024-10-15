@@ -5,17 +5,10 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [Serializable]
-    class GameModeDefinition
-    {
-        public GamemodeType GameModeType;
-        public GameModeManager GameModeManager;
-    }
-
     [Header("Gamemode Managers")] 
-    [SerializeField] private List<GameModeDefinition> _gameModeManagers;
+    [SerializeField] private List<GameMode> _gameModeManagers;
 
-    private GameModeManager _currentGameMode;
+    private GameMode _currentGameMode;
     
     private void Awake()
     {
@@ -38,13 +31,13 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError("The gamemode index you're trying to start is not linked to any existing gamemode");
         }
-        GameModeDefinition gameModeDefinition = _gameModeManagers.FirstOrDefault(def => def.GameModeType == (GamemodeType)gamemodeIndex);
-        if (gameModeDefinition is null)
+        GameMode gameMode = _gameModeManagers.FirstOrDefault(manager => manager.Type == (GamemodeType)gamemodeIndex);
+        if (gameMode is null)
         {
             Debug.LogError("No gamemode has been found with this id, make sure it is referenced in the GameManager");
         }
         _currentGameMode?.StopGameMode();
-        _currentGameMode = gameModeDefinition.GameModeManager;
+        _currentGameMode = gameMode;
         _currentGameMode.StartGameMode();
     }
 }

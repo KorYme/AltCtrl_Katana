@@ -1,18 +1,14 @@
 public abstract class Round
 {
-    private float _roundTime = -1f;
+    protected float _roundTime = -1f;
 
-    public virtual Round Initialize(RoundData data)
+    public virtual void Update(float deltaTime)
     {
-        _roundTime = data.MaxRoundTime;
-        return this;
+        
     }
 
-    public void Update(float deltaTime)
+    public virtual void StopRound()
     {
-        if (_roundTime <= 0f)
-        {
-            return;
-        }
+        _roundTime = -1f;
     }
 }
