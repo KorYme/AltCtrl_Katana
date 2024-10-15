@@ -4,10 +4,11 @@ public class UIManager : MonoBehaviour
 {
     private void Awake()
     {
-        if (GameManager.UIManager != null)
+        if (InstanceManager.UIManager != null)
         {
             Destroy(this);
         }
-        GameManager.UIManager = this;
+        InstanceManager.UIManager = this;
+        DontDestroyOnLoad(gameObject);
     }
 }

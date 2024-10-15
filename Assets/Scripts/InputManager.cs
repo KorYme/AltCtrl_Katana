@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum ActionType
@@ -12,14 +10,15 @@ public enum ActionType
 
 public class InputManager : MonoBehaviour
 {
-    public Action<int, ActionType> OnPlayerActionInput;
+    public event Action<int, ActionType> OnPlayerActionInput;
     
     private void Awake()
     {
-        if (GameManager.InputManager != null)
+        if (InstanceManager.InputManager != null)
         {
             Destroy(this);
         }
-        GameManager.InputManager = this;
+        InstanceManager.InputManager = this;
+        DontDestroyOnLoad(gameObject);
     }
 }
