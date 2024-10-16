@@ -1,0 +1,174 @@
+{
+    "name": "IAA_PlayerControls",
+    "maps": [
+        {
+            "name": "PlayerSword",
+            "id": "8949daaa-55c4-4754-91fc-0a6851e2e504",
+            "actions": [
+                {
+                    "name": "P1Unsheath",
+                    "type": "Button",
+                    "id": "b6190d13-efdf-4b9e-ab80-5eaf44c121c1",
+                    "expectedControlType": "Button",
+                    "processors": "Invert",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "P2Unsheath",
+                    "type": "Button",
+                    "id": "5ae77527-c9ca-467d-8f47-3013517b99d9",
+                    "expectedControlType": "Button",
+                    "processors": "Invert",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "P1AttackInput",
+                    "type": "Button",
+                    "id": "6e4c5041-808f-4eb7-8164-7c0c07994156",
+                    "expectedControlType": "Button",
+                    "processors": "Invert",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "P2AttackInput",
+                    "type": "Button",
+                    "id": "4921b6bc-1c55-48c6-8c11-64172981da80",
+                    "expectedControlType": "Button",
+                    "processors": "Invert",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "P1CritInput",
+                    "type": "Button",
+                    "id": "3f47bcca-db58-43c1-95e0-8a8890fb6575",
+                    "expectedControlType": "Button",
+                    "processors": "Invert",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "P2CritInput",
+                    "type": "Button",
+                    "id": "b91cdb0a-fdaa-4fd7-80d9-a6811399ea2a",
+                    "expectedControlType": "Button",
+                    "processors": "Invert",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "P1CounterInput",
+                    "type": "Button",
+                    "id": "b063bbb0-3aaf-49b6-8c61-95490dd30342",
+                    "expectedControlType": "Button",
+                    "processors": "Invert",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "P2CounterInput",
+                    "type": "Button",
+                    "id": "f7c3858c-0e24-48f1-9a4f-f47782f2090c",
+                    "expectedControlType": "Button",
+                    "processors": "Invert",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "dc88449b-36e0-477e-be4c-6dfb1246cf6a",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "P1Unsheath",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "85b2d457-f8a4-49de-9837-ac60d719f88c",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "P1AttackInput",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "236918bd-3af0-4be2-8523-266fd9f1d536",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "P1CritInput",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "620e8f79-9bf3-4d96-9397-35a09afa06db",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "P1CounterInput",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bc295378-d0fc-4a54-9b98-c1fb44bedc89",
+                    "path": "<Keyboard>/u",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "P2Unsheath",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "116902f5-5ae3-42b0-b49d-eefbb0810706",
+                    "path": "<Keyboard>/o",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "P2AttackInput",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a37b995c-ebc8-4050-afd3-472d97caddaa",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "P2CritInput",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e34f4ef4-667a-4815-9045-51084736d2b2",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "P2CounterInput",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
