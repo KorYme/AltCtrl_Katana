@@ -1,20 +1,24 @@
-using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "DuelRoundData_", menuName = "Content/RoundData")]
+[CreateAssetMenu(fileName = nameof(DuelRoundData), menuName = "Content/RoundData/" + nameof(DuelRoundData))]
 public class DuelRoundData : RoundData
 {
-    public Vector2 RandomRange;
+    [SerializeField, Min(0f)] private float _minValue, _maxValue;
+
+    public float GetRandomTimer()
+    {
+        return Random.Range(_minValue, _maxValue);
+    }
 
     private void OnValidate()
     {
-        if (RandomRange.x > RandomRange.y)
+        if (_minValue > _maxValue)
         {
-            RandomRange = new Vector2(RandomRange.y, RandomRange.y);
+            _minValue = _maxValue;
         }
-        if (MaxRoundTime < RandomRange.y)
+        if (MaxRoundTime < _maxValue)
         {
-            MaxRoundTime = RandomRange.y;
+            MaxRoundTime = _maxValue;
         }
     }
 }
