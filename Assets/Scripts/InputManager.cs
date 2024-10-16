@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
+using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -43,6 +46,11 @@ public class InputManager : MonoBehaviour
     private Dictionary<int, ActionType> _currentActions;
     public IReadOnlyDictionary<int, ActionType> CurrentActions => _currentActions;
 
+    private bool _isSequenceStarted;
+
+    private float _elapsedTime;
+    private bool _isTimerRunning;
+
     private void OnEnable()
     {
         foreach (InputBinding binding in _bindings)
@@ -64,7 +72,6 @@ public class InputManager : MonoBehaviour
         }
     }
 
-
     private void Awake()
     {
         if (InstanceManager.InputManager != null)
@@ -76,16 +83,42 @@ public class InputManager : MonoBehaviour
     }
 
 
+    private void Update()
+    {
+        if (_isTimerRunning) _elapsedTime += Time.fixedDeltaTime;
+    }
 
     private void UpdateInputs(int playerIndex, ActionType type, bool uncovered)
     {
-        switch (type)
+        if ((int)type < (int)_currentActions[playerIndex]) return;
+        if (type == ActionType.Sheath)
         {
-            case ActionType.Sheath:
-
-                break;
+            if (uncovered && !_isSequenceStarted)
+            {
+                StartTimer();
+                _isSequenceStarted = true;
+            }
+            else if (!uncovered && _isSequenceStarted)
+            {
+                StopTimer();
+                OnPlayerActionInput.Invoke(playerIndex, _currentActions[playerIndex]);
+            }
         }
+        else if (uncovered && _isSequenceStarted) _currentActions[playerIndex] = type;
     }
 
+    private void StartTimer()
+    {
+        _isTimerRunning = true;
+    }
+
+    private float StopTimer()
+    {
+        if (!_isTimerRunning) return 0f;
+        _isTimerRunning = false;
+        float givenTime = _elapsedTime;
+        _elapsedTime = 0;
+        return givenTime;
+    }
 
 }
