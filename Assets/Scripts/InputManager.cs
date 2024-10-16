@@ -36,7 +36,8 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    public event Action<int, ActionType> OnPlayerActionInput;
+    public event Action<int, ActionType> OnPlayerActionInput; // IS INVOKED WHEN A PLAYER SHEATH HIS SWORD, RETURNS MAX ACTION TYPE REACHED
+    public event Action<int, ActionType> OnPlayerPositionChanged; // IS INVOKED WHEN A PLAYER TRIGGER OR UNTRIGGER A ZONE ON THE SWORD, RETURN THE POSITION OF THE SWORD
 
     [SerializeField] List<InputBinding> _bindings;
 

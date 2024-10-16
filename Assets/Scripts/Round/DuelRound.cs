@@ -13,20 +13,32 @@ public class DuelRound : Round
         base.StartRound(data);
         _startTimer = duelData.GetRandomTimer();
         InstanceManager.InputManager.OnPlayerActionInput += OnPlayerActionInput;
+        InstanceManager.InputManager.OnPlayerPositionChanged += OnPlayerPositionChanged;
     }
 
     public override void StopRound(RoundResult result)
     {
         InstanceManager.InputManager.OnPlayerActionInput -= OnPlayerActionInput;
+        InstanceManager.InputManager.OnPlayerPositionChanged -= OnPlayerPositionChanged;
         base.StopRound(result);
     }
     protected void OnPlayerActionInput(int playerId, ActionType action)
     {
-        if (action == ActionType.Sheath)
+        if (action == ActionType.Sheath || _startTimer > 0f)
         {
             return;
         }
         StopRound(playerId == 0 ? RoundResult.Player1Victory : RoundResult.Player2Victory);
+    }
+
+    protected void OnPlayerPositionChanged(int playerId, ActionType action)
+    {
+        if (action == ActionType.Sheath || _startTimer <= 0f)
+        {
+            return;
+        }
+        // TO CHANGE FOR SOMETHING SMOOTHER LIKE A RESTART OR SOMTHING LIKE THAT
+        StopRound(playerId != 0 ? RoundResult.Player1Victory : RoundResult.Player2Victory);
     }
 
     public override void Update(float deltaTime)
@@ -36,20 +48,10 @@ public class DuelRound : Round
         {
             return;
         }
-        if (false) // CHECK IF PLAYERS SHEATHED
-        {
-            // CHOOSE THE RIGHT PLAYER TO WIN
-            StopRound(RoundResult.Draw);
-        }
         _startTimer -= deltaTime;
         if (_startTimer <= 0f)
         {
-            OnDuelTriggered();
+            InstanceManager.UIManager.OnDuelTriggered?.Invoke();
         }
-    }
-
-    protected void OnDuelTriggered()
-    {
-        // FULL FEEDBACK AND ENABLE CONTROLS
     }
 }
