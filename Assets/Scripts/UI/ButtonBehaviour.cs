@@ -6,4 +6,9 @@ public class ButtonBehaviour : MonoBehaviour
     {
         InstanceManager.GameManager.StartGamemode(gamemodeIndex);
     }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }

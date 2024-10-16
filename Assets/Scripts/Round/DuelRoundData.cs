@@ -1,24 +1,26 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = nameof(DuelRoundData), menuName = "Content/RoundData/" + nameof(DuelRoundData))]
 public class DuelRoundData : RoundData
 {
-    [SerializeField, Min(0f)] private float _minValue, _maxValue;
+    [SerializeField, Min(0f)] private float _triggerMinTime;
+    [SerializeField, Min(0f)] private float _triggerMaxTime;
 
     public float GetRandomTimer()
     {
-        return Random.Range(_minValue, _maxValue);
+        return Random.Range(_triggerMinTime, _triggerMaxTime);
     }
 
     private void OnValidate()
     {
-        if (_minValue > _maxValue)
+        if (_triggerMinTime > _triggerMaxTime)
         {
-            _minValue = _maxValue;
+            _triggerMinTime = _triggerMaxTime;
         }
-        if (MaxRoundTime < _maxValue)
+        if (MaxRoundTime < _triggerMaxTime)
         {
-            MaxRoundTime = _maxValue;
+            MaxRoundTime = _triggerMaxTime;
         }
     }
 }

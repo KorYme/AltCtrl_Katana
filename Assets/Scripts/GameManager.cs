@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [Header("Gamemode Managers")] 
     [SerializeField] private List<GameMode> _gameModeManagers;
 
     private GameMode _currentGameMode;

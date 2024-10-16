@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3095006ce457894d822e4eb72340b15, type: 3}
   m_Name: DuelRoundData
   m_EditorClassIdentifier: 
+  <StartRoundClipName>k__BackingField: Fight!
   <MaxRoundTime>k__BackingField: 20
-  _minValue: 0.5
-  _maxValue: 10
+  _triggerMinTime: 1
+  _triggerMaxTime: 15

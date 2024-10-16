@@ -21,7 +21,7 @@ public class MenuSelector : MonoBehaviour
         }
         _hasJustMoved = false;
         _currentIndex = 0;
-        _buttons[_currentIndex].Select();
+        _buttons?[_currentIndex].Select();
         _movementTimer = _secondsBeforeMovement;
         InstanceManager.InputManager.OnPlayerPositionChanged += OnSwordPositionChanged;
     }
@@ -59,6 +59,7 @@ public class MenuSelector : MonoBehaviour
                 _indexModifier = -1;
                 break;
             case ActionType.Attack:
+            case ActionType.Sheath:
                 _indexModifier = 0;
                 break;
             case ActionType.Counter:
