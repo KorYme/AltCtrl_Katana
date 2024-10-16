@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public enum ActionType
 {
+    None,
     Sheath,
     Attack,
     Crit,
@@ -35,13 +36,12 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    public Action<int, ActionType> OnPlayerActionInput;
-
-    #region SwordInputs
+    public event Action<int, ActionType> OnPlayerActionInput;
 
     [SerializeField] List<InputBinding> _bindings;
 
-    #endregion
+    private Dictionary<int, ActionType> _currentActions;
+    public IReadOnlyDictionary<int, ActionType> CurrentActions => _currentActions;
 
     private void OnEnable()
     {
@@ -64,6 +64,7 @@ public class InputManager : MonoBehaviour
         }
     }
 
+
     private void Awake()
     {
         if (InstanceManager.InputManager != null)
@@ -72,17 +73,18 @@ public class InputManager : MonoBehaviour
         }
         InstanceManager.InputManager = this;
         DontDestroyOnLoad(gameObject);
-        SetupInputs();
     }
+
+
 
     private void UpdateInputs(int playerIndex, ActionType type, bool uncovered)
     {
-        
-    }
+        switch (type)
+        {
+            case ActionType.Sheath:
 
-    private void SetupInputs()
-    {
-
+                break;
+        }
     }
 
 
