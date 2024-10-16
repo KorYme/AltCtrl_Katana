@@ -52,6 +52,7 @@ public class DuelRound : Round
         if (_startTimer <= 0f)
         {
             InstanceManager.UIManager.OnDuelTriggered?.Invoke();
+            InstanceManager.AudioManager.PlayClip(_data.StartRoundClipName);
         }
     }
 }

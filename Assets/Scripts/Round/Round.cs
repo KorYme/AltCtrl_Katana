@@ -14,12 +14,15 @@ public enum RoundResult
 
 public abstract class Round
 {
+    protected RoundData _data;
+
     protected float _roundTime = -1f;
 
     public event Action<RoundResult> OnRoundEnd;
 
     public virtual void StartRound(RoundData data)
     {
+        _data = data;
         _roundTime = data.MaxRoundTime;
     }
     
