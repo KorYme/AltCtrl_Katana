@@ -38,6 +38,6 @@ public class GameManager : MonoBehaviour
         }
         _currentGameMode?.StopGameMode();
         _currentGameMode = gameMode;
-        _currentGameMode.StartGameMode();
+        _currentGameMode?.StartGameMode();
     }
 }

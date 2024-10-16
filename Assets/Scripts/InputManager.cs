@@ -77,7 +77,7 @@ public class InputManager : MonoBehaviour
 
     private void UpdateInputs(int playerIndex, ActionType type, bool uncovered)
     {
-
+        
     }
 
     private void SetupInputs()
