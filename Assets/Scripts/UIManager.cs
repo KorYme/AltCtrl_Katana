@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -11,4 +12,6 @@ public class UIManager : MonoBehaviour
         InstanceManager.UIManager = this;
         DontDestroyOnLoad(gameObject);
     }
+
+    public Action OnDuelTriggered;
 }

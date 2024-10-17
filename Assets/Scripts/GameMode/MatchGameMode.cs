@@ -4,19 +4,20 @@ public class MatchGameMode : GameMode
 {
     public override GamemodeType Type => GamemodeType.Match;
     
-    [SerializeField] protected RoundData _climaxRoundData;
+    [SerializeField] protected DuelRoundData _duelRoundData;
 
     public override void StartGameMode()
     {
+        _currentRound = new DuelRound();
         // Open the scene and play animation
         // Wait for animation to end
         // Wait for player to be ready => Add a method in InputManager
-        _currentRound = new ClimaxRound(_climaxRoundData);
+        _currentRound?.StartRound(_duelRoundData);
     }
 
     public override void StopGameMode()
     {
-        _currentRound?.StopRound();
+        _currentRound?.StopRound(RoundResult.Draw);
         _currentRound = null;
     }
 
