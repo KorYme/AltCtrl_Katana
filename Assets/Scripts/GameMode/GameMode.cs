@@ -11,6 +11,8 @@ public abstract class GameMode : MonoBehaviour
     public abstract GamemodeType Type { get; }
     
     protected Round _currentRound;
+
+    [SerializeField] protected string _sceneName;
     
     public abstract void StartGameMode();
     public abstract void StopGameMode();

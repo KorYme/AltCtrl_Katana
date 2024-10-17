@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 public enum RoundResult
 {
@@ -37,6 +38,7 @@ public abstract class Round
 
     public virtual void StopRound(RoundResult result)
     {
+        Debug.Log(result);
         OnRoundEnd?.Invoke(result);
         _roundTime = -1f;
     }

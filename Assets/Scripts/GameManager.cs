@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
         }
         InstanceManager.GameManager = this;
         DontDestroyOnLoad(gameObject);
+        StartGamemode(GamemodeType.Match);
     }
 
     private void Update()

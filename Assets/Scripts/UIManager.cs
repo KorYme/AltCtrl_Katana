@@ -13,7 +13,8 @@ public class UIManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    // REQUEST
-    public Action OnDuelTriggered;
-    public Action<bool> OnDisplayBlackTapes;
+    // DUEL
+    public Action<bool> OnDisplayBlackTapes;        // Called when black tapes must be displayed
+    public Action OnDuelStarted;                    // Called when players can attack
+    public Action OnDuelFinished;                   // Called when a player slash first
 }

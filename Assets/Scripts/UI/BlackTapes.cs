@@ -29,13 +29,11 @@ public class BlackTapes : MonoBehaviour
                 btt.Rect.sizeDelta = targetSize;
             }
         }
-        OnBlackTapeDisplayed(true);
     }
 
     private void OnEnable()
     {
         InstanceManager.UIManager.OnDisplayBlackTapes += OnBlackTapeDisplayed;
-        OnBlackTapeDisplayed(true);
     }
 
     private void OnDestroy()

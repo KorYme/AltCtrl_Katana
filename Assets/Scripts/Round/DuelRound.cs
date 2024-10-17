@@ -1,8 +1,10 @@
 using System;
+using UnityEngine;
 
 public class DuelRound : Round
 {
     protected float _startTimer;
+    protected ActionType _minimumAction;
 
     public override void StartRound(RoundData data)
     {
@@ -15,6 +17,8 @@ public class DuelRound : Round
         // ADD WAITING OR PREPARING UI
         base.StartRound(data);
         _startTimer = duelData.GetRandomTimer();
+        InstanceManager.UIManager.OnDisplayBlackTapes?.Invoke(true);
+        Debug.Log($"Duel Round Time = {_startTimer}s");
     }
 
     public override void StopRound(RoundResult result)
@@ -25,7 +29,7 @@ public class DuelRound : Round
     }
     protected void OnPlayerActionInput(int playerId, ActionType action)
     {
-        if (action == ActionType.Sheath || _startTimer > 0f)
+        if (action < _minimumAction || _startTimer > 0f)
         {
             return;
         }
@@ -52,7 +56,8 @@ public class DuelRound : Round
         _startTimer -= deltaTime;
         if (_startTimer <= 0f)
         {
-            InstanceManager.UIManager.OnDuelTriggered?.Invoke();
+            InstanceManager.UIManager.OnDuelStarted?.Invoke();
+            Debug.Log("SLASH");
             InstanceManager.AudioManager.PlayClip(_data.StartRoundClipName);
         }
     }

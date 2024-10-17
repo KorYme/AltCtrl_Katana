@@ -80,6 +80,11 @@ public class InputManager : MonoBehaviour
         }
         InstanceManager.InputManager = this;
         DontDestroyOnLoad(gameObject);
+        for (int i = 0; i < 2; i++)
+        {
+            _currentActions.Add(i, ActionType.Sheath);
+            _sequenceActions.Add(i, ActionType.Sheath);
+        }
     }
 
 
@@ -88,8 +93,9 @@ public class InputManager : MonoBehaviour
         if (_isTimerRunning) _elapsedTime += Time.fixedDeltaTime;
     }
 
-    private void UpdateInputs(int playerIndex, ActionType type, bool uncovered)
+    public void UpdateInputs(int playerIndex, ActionType type, bool uncovered)
     {
+        // Debug.Log($"Updating input for player {playerIndex}: {type} is {(uncovered ? "un" : "")}covered.");
         _currentActions[playerIndex] = UpdatePosition(type, uncovered);
         OnPlayerPositionChanged?.Invoke(playerIndex, _currentActions[playerIndex]);
 
@@ -106,6 +112,7 @@ public class InputManager : MonoBehaviour
                 StopTimer();
                 _isSequenceStarted = false;
                 OnPlayerActionInput?.Invoke(playerIndex, _sequenceActions[playerIndex]);
+                _sequenceActions[playerIndex] = ActionType.Sheath;
             }
         }
     }
@@ -134,5 +141,4 @@ public class InputManager : MonoBehaviour
         _elapsedTime = 0;
         return givenTime;
     }
-
 }
