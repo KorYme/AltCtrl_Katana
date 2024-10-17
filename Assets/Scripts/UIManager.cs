@@ -14,4 +14,7 @@ public class UIManager : MonoBehaviour
     }
 
     public Action OnDuelTriggered;
+    
+    // REQUEST
+    public Action<bool> OnFadeRequested;
 }

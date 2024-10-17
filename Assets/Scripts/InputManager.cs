@@ -14,7 +14,6 @@ public enum ActionType
 
 public class InputManager : MonoBehaviour
 {
-
     [Serializable]
     public class InputBinding
     {
