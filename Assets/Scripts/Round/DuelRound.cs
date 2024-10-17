@@ -14,6 +14,7 @@ public class DuelRound : Round
         _startTimer = duelData.GetRandomTimer();
         InstanceManager.InputManager.OnPlayerActionInput += OnPlayerActionInput;
         InstanceManager.InputManager.OnPlayerPositionChanged += OnPlayerPositionChanged;
+        // ADD WAITING OR PREPARING UI
     }
 
     public override void StopRound(RoundResult result)

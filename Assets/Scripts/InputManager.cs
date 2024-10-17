@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
-using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -108,7 +105,7 @@ public class InputManager : MonoBehaviour
             {
                 StopTimer();
                 _isSequenceStarted = false;
-                OnPlayerActionInput.Invoke(playerIndex, _sequenceActions[playerIndex]);
+                OnPlayerActionInput?.Invoke(playerIndex, _sequenceActions[playerIndex]);
             }
         }
     }

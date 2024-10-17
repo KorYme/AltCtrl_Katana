@@ -13,8 +13,6 @@ public class UIManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    
     // REQUEST
     public Action OnDuelTriggered;
-    public Action<bool> OnFadeRequested;
 }
