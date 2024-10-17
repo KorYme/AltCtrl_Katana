@@ -15,4 +15,5 @@ public class UIManager : MonoBehaviour
 
     // REQUEST
     public Action OnDuelTriggered;
+    public Action<bool> OnDisplayBlackTapes;
 }

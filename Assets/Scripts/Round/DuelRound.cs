@@ -10,11 +10,11 @@ public class DuelRound : Round
         {
             throw new Exception($"You tried to initialize the {nameof(DuelRound)} with something else than a {nameof(DuelRoundData)}");
         }
-        base.StartRound(data);
-        _startTimer = duelData.GetRandomTimer();
         InstanceManager.InputManager.OnPlayerActionInput += OnPlayerActionInput;
         InstanceManager.InputManager.OnPlayerPositionChanged += OnPlayerPositionChanged;
         // ADD WAITING OR PREPARING UI
+        base.StartRound(data);
+        _startTimer = duelData.GetRandomTimer();
     }
 
     public override void StopRound(RoundResult result)
@@ -38,15 +38,15 @@ public class DuelRound : Round
         {
             return;
         }
-        // TO CHANGE FOR SOMETHING SMOOTHER LIKE A RESTART OR SOMTHING LIKE THAT
+        // PLAY ANIMATION SLASH AND GIVE WIN OR LOSE POSITION TO CHARACTERS
         StopRound(playerId != 0 ? RoundResult.Player1Victory : RoundResult.Player2Victory);
     }
 
     public override void Update(float deltaTime)
     {
-        base.Update(deltaTime);
         if (_startTimer <= 0f)
         {
+            base.Update(deltaTime);
             return;
         }
         _startTimer -= deltaTime;

@@ -1,12 +1,8 @@
 using System;
 
-public enum RoundType
-{
-    Duel,
-}
-
 public enum RoundResult
 {
+    OnGoing,
     Player1Victory,
     Player2Victory,
     Draw,

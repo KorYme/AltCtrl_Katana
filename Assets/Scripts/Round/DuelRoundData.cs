@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = nameof(DuelRoundData), menuName = "Content/RoundData/" + nameof(DuelRoundData))]
 public class DuelRoundData : RoundData
@@ -16,11 +15,7 @@ public class DuelRoundData : RoundData
     {
         if (_triggerMinTime > _triggerMaxTime)
         {
-            _triggerMinTime = _triggerMaxTime;
-        }
-        if (MaxRoundTime < _triggerMaxTime)
-        {
-            MaxRoundTime = _triggerMaxTime;
+            _triggerMaxTime = _triggerMinTime;
         }
     }
 }
