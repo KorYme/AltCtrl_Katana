@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _charactersBehaviour: {fileID: 0}
-  _animator: {fileID: 0}
+  _animator: {fileID: 9138561531173745785}
 --- !u!1 &4968078799633876516
 GameObject:
   m_ObjectHideFlags: 0

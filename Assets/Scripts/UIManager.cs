@@ -13,8 +13,12 @@ public class UIManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    // DUEL
+    // COMMON
     public Action<bool> OnDisplayBlackTapes;        // Called when black tapes must be displayed
+    public Action<RoundResult> OnDisplayWinner;     // Called when you want to display the winner text
+    
+    // DUEL
     public Action OnDuelStarted;                    // Called when players can attack
     public Action OnDuelFinished;                   // Called when a player slash first
+    public Action OnFlashAnimEnded;                 // Called when flash anim ended
 }

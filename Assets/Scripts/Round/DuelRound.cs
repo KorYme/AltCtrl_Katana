@@ -17,6 +17,7 @@ public class DuelRound : Round
         // ADD WAITING OR PREPARING UI
         base.StartRound(data);
         _startTimer = duelData.GetRandomTimer();
+        _minimumAction = duelData.MinimumActionToCount;
         InstanceManager.UIManager.OnDisplayBlackTapes?.Invoke(true);
         Debug.Log($"Duel Round Time = {_startTimer}s");
     }
@@ -25,6 +26,7 @@ public class DuelRound : Round
     {
         InstanceManager.InputManager.OnPlayerActionInput -= OnPlayerActionInput;
         InstanceManager.InputManager.OnPlayerPositionChanged -= OnPlayerPositionChanged;
+        InstanceManager.UIManager.OnDisplayBlackTapes?.Invoke(false);
         base.StopRound(result);
     }
     protected void OnPlayerActionInput(int playerId, ActionType action)
@@ -33,7 +35,14 @@ public class DuelRound : Round
         {
             return;
         }
-        StopRound(playerId == 0 ? RoundResult.Player1Victory : RoundResult.Player2Victory);
+        // PLAY ANIMATION SLASH AND GIVE WIN OR LOSE POSITION TO CHARACTERS
+        InstanceManager.UIManager.OnFlashAnimEnded += OnFlashAnimEnded;
+        InstanceManager.UIManager.OnDuelFinished.Invoke();
+        void OnFlashAnimEnded()
+        {
+            InstanceManager.UIManager.OnFlashAnimEnded -= OnFlashAnimEnded;
+            StopRound(playerId == 0 ? RoundResult.Player1Victory : RoundResult.Player2Victory);
+        }
     }
 
     protected void OnPlayerPositionChanged(int playerId, ActionType action)
@@ -42,7 +51,6 @@ public class DuelRound : Round
         {
             return;
         }
-        // PLAY ANIMATION SLASH AND GIVE WIN OR LOSE POSITION TO CHARACTERS
         StopRound(playerId != 0 ? RoundResult.Player1Victory : RoundResult.Player2Victory);
     }
 

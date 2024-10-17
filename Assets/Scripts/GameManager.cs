@@ -17,6 +17,11 @@ public class GameManager : MonoBehaviour
         }
         InstanceManager.GameManager = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void Start()
+    {
+        // TO REMOVE
         StartGamemode(GamemodeType.Match);
     }
 

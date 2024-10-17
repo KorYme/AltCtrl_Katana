@@ -8,12 +8,12 @@ public class FlashScreen : MonoBehaviour
     [SerializeField] private CharactersBehaviour _charactersBehaviour;
     [SerializeField] private Animator _animator;
 
-    private void OnEnable()
+    private void Start()
     {
         InstanceManager.UIManager.OnDuelFinished += StartFlash;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         InstanceManager.UIManager.OnDuelFinished -= StartFlash;
     }
@@ -25,6 +25,11 @@ public class FlashScreen : MonoBehaviour
     
     public void OnFlashFull()
     {
-        _charactersBehaviour.SwitchSamuraiPlace();
+        _charactersBehaviour.SwitchSamuraiPlaces();
+    }
+
+    public void OnFlashEnded()
+    {
+        InstanceManager.UIManager.OnFlashAnimEnded?.Invoke();
     }
 }

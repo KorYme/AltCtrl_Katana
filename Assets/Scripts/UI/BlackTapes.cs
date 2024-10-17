@@ -20,6 +20,7 @@ public class BlackTapes : MonoBehaviour
 
     private void Start()
     {
+        InstanceManager.UIManager.OnDisplayBlackTapes += OnBlackTapeDisplayed;
         if (_blackTapes?.Count != 0)
         {
             Vector2 targetSize = new Vector2(_blackTapes[0].Rect.sizeDelta.x, 0);
@@ -29,11 +30,6 @@ public class BlackTapes : MonoBehaviour
                 btt.Rect.sizeDelta = targetSize;
             }
         }
-    }
-
-    private void OnEnable()
-    {
-        InstanceManager.UIManager.OnDisplayBlackTapes += OnBlackTapeDisplayed;
     }
 
     private void OnDestroy()
