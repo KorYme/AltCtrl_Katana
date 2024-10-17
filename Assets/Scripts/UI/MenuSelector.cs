@@ -53,20 +53,11 @@ public class MenuSelector : MonoBehaviour
         }
         _hasJustMoved = true;
         _movementTimer = _secondsBeforeMovement;
-        switch (actionType)
+        _indexModifier = actionType switch
         {
-            case ActionType.None: // TO CHANGE FOR FEINT
-                _indexModifier = -1;
-                break;
-            case ActionType.Attack:
-            case ActionType.Sheath:
-                _indexModifier = 0;
-                break;
-            case ActionType.Counter:
-                _indexModifier = 1;
-                break;
-            default:
-                break;
-        }
+            ActionType.Feint => -1,
+            ActionType.Counter => 1,
+            _ => 0
+        };
     }
 }
