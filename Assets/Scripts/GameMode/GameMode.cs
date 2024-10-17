@@ -15,4 +15,9 @@ public abstract class GameMode : MonoBehaviour
     public abstract void StartGameMode();
     public abstract void StopGameMode();
     public abstract void UpdateGameMode(float deltaTime);
+
+    protected virtual void OnStartNewRound()
+    {
+        
+    }
 }
