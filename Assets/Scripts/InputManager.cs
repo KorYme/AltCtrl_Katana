@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
+using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public enum ActionType
 {
-    None,
     Sheath,
+    Feint,
     Attack,
     Crit,
     Counter
@@ -40,8 +43,16 @@ public class InputManager : MonoBehaviour
 
     [SerializeField] List<InputBinding> _bindings;
 
-    private Dictionary<int, ActionType> _currentActions;
+    private Dictionary<int, ActionType> _currentActions = new Dictionary<int, ActionType>();
     public IReadOnlyDictionary<int, ActionType> CurrentActions => _currentActions;
+
+    private Dictionary<int, ActionType> _sequenceActions = new Dictionary<int, ActionType>();
+    public IReadOnlyDictionary<int, ActionType> SequenceActions => _sequenceActions;
+
+    private bool _isSequenceStarted;
+    private float _elapsedTime;
+    private bool _isTimerRunning;
+
 
     private void OnEnable()
     {
@@ -64,7 +75,6 @@ public class InputManager : MonoBehaviour
         }
     }
 
-
     private void Awake()
     {
         if (InstanceManager.InputManager != null)
@@ -76,16 +86,56 @@ public class InputManager : MonoBehaviour
     }
 
 
+    private void Update()
+    {
+        if (_isTimerRunning) _elapsedTime += Time.fixedDeltaTime;
+    }
 
     private void UpdateInputs(int playerIndex, ActionType type, bool uncovered)
     {
-        switch (type)
-        {
-            case ActionType.Sheath:
+        _currentActions[playerIndex] = UpdatePosition(type, uncovered);
+        OnPlayerPositionChanged?.Invoke(playerIndex, _currentActions[playerIndex]);
 
-                break;
+        if ((int)type < (int)_sequenceActions[playerIndex]) return;
+        if (type == ActionType.Sheath)
+        {
+            if (uncovered && !_isSequenceStarted)
+            {
+                StartTimer();
+                _isSequenceStarted = true;
+            }
+            else if (!uncovered && _isSequenceStarted)
+            {
+                StopTimer();
+                _isSequenceStarted = false;
+                OnPlayerActionInput.Invoke(playerIndex, _sequenceActions[playerIndex]);
+            }
         }
     }
 
+    private ActionType UpdatePosition(ActionType type, bool uncov)
+    {
+        return type switch
+        {
+            ActionType.Sheath => (uncov ? ActionType.Feint : ActionType.Sheath),
+            ActionType.Attack => (uncov ? ActionType.Attack : ActionType.Feint),
+            ActionType.Crit => (uncov ? ActionType.Crit : ActionType.Attack),
+            ActionType.Counter => (uncov ? ActionType.Counter : ActionType.Crit),
+            _ => ActionType.Sheath,
+        };
+    }
+    private void StartTimer()
+    {
+        _isTimerRunning = true;
+    }
+
+    private float StopTimer()
+    {
+        if (!_isTimerRunning) return 0f;
+        _isTimerRunning = false;
+        float givenTime = _elapsedTime;
+        _elapsedTime = 0;
+        return givenTime;
+    }
 
 }
