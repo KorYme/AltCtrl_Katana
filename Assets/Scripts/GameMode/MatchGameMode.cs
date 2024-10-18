@@ -11,7 +11,6 @@ public class MatchGameMode : GameMode
     {
         _currentRound = new DuelRound();
         SceneManager.LoadScene(_sceneName, LoadSceneMode.Single);
-        // Open the scene and play animation
         // Wait for animation to end
         // Wait for player to be ready => Add a method in InputManager
         _currentRound?.StartRound(_duelRoundData);

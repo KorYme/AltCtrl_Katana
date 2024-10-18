@@ -439,7 +439,7 @@ MonoBehaviour:
   - {fileID: 1693742397}
   - {fileID: 591164338}
   - {fileID: 140931825}
-  _secondsBeforeMovement: 0
+  _secondsBeforeMovement: 1
 --- !u!1 &591164336
 GameObject:
   m_ObjectHideFlags: 0

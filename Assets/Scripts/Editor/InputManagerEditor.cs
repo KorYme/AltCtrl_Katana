@@ -20,14 +20,27 @@ public class InputManagerEditor : BasicEditor<InputManager>
         }
         for (int i = 0; i < _target.CurrentActions.Count; i++)
         {
-            EditorGUILayout.LabelField($"Player{i+1} sword position", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField($"Player{i+1} sword position : {_target.CurrentActions[i]}", EditorStyles.boldLabel);
             EditorGUI.BeginChangeCheck();
             float tmpValue = _swordValues[i];
-            _swordValues[i] = EditorGUILayout.Slider(_swordValues[i], 0f, 4.01f);
-            if (EditorGUI.EndChangeCheck() && ((int)tmpValue != (int)_swordValues[i] || (tmpValue != _swordValues[i] && (tmpValue == 0f || _swordValues[i] == 0f))))
+            _swordValues[i] = EditorGUILayout.Slider(_swordValues[i], 0f, 3.01f);
+            bool isUncovering = tmpValue < _swordValues[i];
+            if (EditorGUI.EndChangeCheck() && ComputeActionType(tmpValue) != ComputeActionType(_swordValues[i]))
             {
-                _target.UpdateInputs(i, tmpValue < _swordValues[i] ? (ActionType)(int)_swordValues[i] : (ActionType)(int)tmpValue, tmpValue < _swordValues[i]);
+                _target.UpdateInputs(i, ComputeActionType(_swordValues[i]), isUncovering);
             }
         }
+    }
+    
+    private ActionType ComputeActionType(float i)
+    {
+        return i switch
+        {
+            <= 0f => ActionType.Sheath,
+            < 1f => ActionType.Feint,
+            < 2f => ActionType.Attack,
+            < 3f => ActionType.Crit,
+            _ => ActionType.Counter,
+        };
     }
 }
