@@ -1,4 +1,5 @@
- using UnityEditor;
+using UnityEditor;
+using UnityEngine;
 
 [CustomEditor(typeof(InputManager))]
 public class InputManagerEditor : BasicEditor<InputManager>
@@ -23,16 +24,16 @@ public class InputManagerEditor : BasicEditor<InputManager>
             EditorGUILayout.LabelField($"Player{i+1} sword position : {_target.CurrentActions[i]}", EditorStyles.boldLabel);
             EditorGUI.BeginChangeCheck();
             float tmpValue = _swordValues[i];
-            _swordValues[i] = EditorGUILayout.Slider(_swordValues[i], 0f, 3.01f);
-            bool isUncovering = tmpValue < _swordValues[i];
-            if (EditorGUI.EndChangeCheck() && ComputeActionType(tmpValue) != ComputeActionType(_swordValues[i]))
+            _swordValues[i] = EditorGUILayout.Slider(_swordValues[i], 0f, 3f);
+            if (EditorGUI.EndChangeCheck() && ComputeActionZone(tmpValue) != ComputeActionZone(_swordValues[i]))
             {
-                _target.UpdateInputs(i, ComputeActionType(_swordValues[i]), isUncovering);
+                bool isUncovered = tmpValue < _swordValues[i];
+                _target.UpdateInputs(i, GetInputNeeded(ComputeActionZone(_swordValues[i]), isUncovered), isUncovered);
             }
         }
     }
     
-    private ActionType ComputeActionType(float i)
+    private ActionType ComputeActionZone(float i)
     {
         return i switch
         {
@@ -41,6 +42,19 @@ public class InputManagerEditor : BasicEditor<InputManager>
             < 2f => ActionType.Attack,
             < 3f => ActionType.Crit,
             _ => ActionType.Counter,
+        };
+    }
+    
+    private ActionType GetInputNeeded(ActionType resultAction, bool uncov)
+    {
+        return resultAction switch
+        {
+            ActionType.Sheath => ActionType.Sheath,
+            ActionType.Attack => (uncov ? ActionType.Attack : ActionType.Crit),
+            ActionType.Crit => (uncov ? ActionType.Crit : ActionType.Counter),
+            ActionType.Counter => ActionType.Counter,
+            ActionType.Feint => (uncov ? ActionType.Sheath : ActionType.Attack),
+            _ => ActionType.Feint,
         };
     }
 }

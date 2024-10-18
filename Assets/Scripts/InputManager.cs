@@ -128,9 +128,10 @@ public class InputManager : MonoBehaviour
             ActionType.Attack => (uncov ? ActionType.Attack : ActionType.Feint),
             ActionType.Crit => (uncov ? ActionType.Crit : ActionType.Attack),
             ActionType.Counter => (uncov ? ActionType.Counter : ActionType.Crit),
-            _ => ActionType.Sheath,
+            _ => ActionType.Feint,
         };
     }
+    
     private void StartTimer()
     {
         _isTimerRunning = true;
