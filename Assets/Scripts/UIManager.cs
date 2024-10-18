@@ -7,7 +7,7 @@ public class UIManager : MonoBehaviour
     {
         if (InstanceManager.UIManager != null)
         {
-            Destroy(this);
+            Destroy(gameObject);
         }
         InstanceManager.UIManager = this;
         DontDestroyOnLoad(gameObject);

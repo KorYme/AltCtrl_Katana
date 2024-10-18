@@ -22,7 +22,7 @@ public class AudioManager : MonoBehaviour
     {
         if (InstanceManager.AudioManager != null)
         {
-            Destroy(this);
+            Destroy(gameObject);
         }
         InstanceManager.AudioManager = this;
         DontDestroyOnLoad(gameObject);

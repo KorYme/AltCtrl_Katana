@@ -55,20 +55,21 @@ public class InputManager : MonoBehaviour
     {
         foreach (InputBinding binding in _bindings)
         {
-            binding.actionRef.action.started += binding.BindStartInput;
-            binding.actionRef.action.canceled += binding.BindCancelInput;
+            binding.actionRef.action.Enable();
+            binding.actionRef.action.canceled += binding.BindStartInput;
+            binding.actionRef.action.started += binding.BindCancelInput;
             binding.OnInputBind += UpdateInputs;
         }
-        // set the action's performed as a method to update the input;
     }
 
     private void OnDisable()
     {
         foreach (InputBinding binding in _bindings)
         {
-            binding.actionRef.action.started -= binding.BindStartInput;
-            binding.actionRef.action.canceled -= binding.BindCancelInput;
+            binding.actionRef.action.canceled -= binding.BindStartInput;
+            binding.actionRef.action.started -= binding.BindCancelInput;
             binding.OnInputBind -= UpdateInputs;
+            binding.actionRef.action.Disable();
         }
     }
 
@@ -76,7 +77,7 @@ public class InputManager : MonoBehaviour
     {
         if (InstanceManager.InputManager != null)
         {
-            Destroy(this);
+            Destroy(gameObject);
         }
         InstanceManager.InputManager = this;
         DontDestroyOnLoad(gameObject);
@@ -95,7 +96,7 @@ public class InputManager : MonoBehaviour
 
     public void UpdateInputs(int playerIndex, ActionType type, bool uncovered)
     {
-        // Debug.Log($"Updating input for player {playerIndex}: {type} is {(uncovered ? "un" : "")}covered.");
+        Debug.Log($"Updating input for player {playerIndex}: {type} is {(uncovered ? "un" : "")}covered.");
         _currentActions[playerIndex] = UpdatePosition(type, uncovered);
         OnPlayerPositionChanged?.Invoke(playerIndex, _currentActions[playerIndex]);
 

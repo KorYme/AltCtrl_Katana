@@ -1,4 +1,4 @@
-using UnityEditor;
+ using UnityEditor;
 
 [CustomEditor(typeof(InputManager))]
 public class InputManagerEditor : BasicEditor<InputManager>

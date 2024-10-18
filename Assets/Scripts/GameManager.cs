@@ -13,16 +13,10 @@ public class GameManager : MonoBehaviour
     {
         if (InstanceManager.GameManager != null)
         {
-            Destroy(this);
+            Destroy(gameObject);
         }
         InstanceManager.GameManager = this;
         DontDestroyOnLoad(gameObject);
-    }
-
-    private void Start()
-    {
-        // TO REMOVE
-        StartGamemode(GamemodeType.Match);
     }
 
     private void Update()
