@@ -1,18 +1,16 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
-using UnityEditor.Search;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public enum ActionType
 {
-    Sheath,
-    Feint,
-    Attack,
-    Crit,
-    Counter
+    Sheath = 0,
+    Feint = 1,
+    Attack = 2,
+    Crit = 3,
+    Counter = 4,
 }
 
 public class InputManager : MonoBehaviour
@@ -41,6 +39,8 @@ public class InputManager : MonoBehaviour
     public event Action<int, ActionType> OnPlayerActionInput; // IS INVOKED WHEN A PLAYER SHEATH HIS SWORD, RETURNS MAX ACTION TYPE REACHED
     public event Action<int, ActionType> OnPlayerPositionChanged; // IS INVOKED WHEN A PLAYER TRIGGER OR UNTRIGGER A ZONE ON THE SWORD, RETURN THE POSITION OF THE SWORD
 
+    [SerializeField] private GameObject _eventSystem;
+    
     [SerializeField] List<InputBinding> _bindings;
 
     private Dictionary<int, ActionType> _currentActions = new Dictionary<int, ActionType>();
@@ -58,20 +58,21 @@ public class InputManager : MonoBehaviour
     {
         foreach (InputBinding binding in _bindings)
         {
-            binding.actionRef.action.started += binding.BindStartInput;
-            binding.actionRef.action.canceled += binding.BindCancelInput;
+            binding.actionRef.action.Enable();
+            binding.actionRef.action.canceled += binding.BindStartInput;
+            binding.actionRef.action.started += binding.BindCancelInput;
             binding.OnInputBind += UpdateInputs;
         }
-        // set the action's performed as a method to update the input;
     }
 
     private void OnDisable()
     {
         foreach (InputBinding binding in _bindings)
         {
-            binding.actionRef.action.started -= binding.BindStartInput;
-            binding.actionRef.action.canceled -= binding.BindCancelInput;
+            binding.actionRef.action.canceled -= binding.BindStartInput;
+            binding.actionRef.action.started -= binding.BindCancelInput;
             binding.OnInputBind -= UpdateInputs;
+            binding.actionRef.action.Disable();
         }
     }
 
@@ -79,10 +80,17 @@ public class InputManager : MonoBehaviour
     {
         if (InstanceManager.InputManager != null)
         {
-            Destroy(this);
+            Destroy(gameObject);
         }
         InstanceManager.InputManager = this;
+        transform.parent = null;
         DontDestroyOnLoad(gameObject);
+        _eventSystem.SetActive(true);
+        for (int i = 0; i < 2; i++)
+        {
+            _currentActions.Add(i, ActionType.Sheath);
+            _sequenceActions.Add(i, ActionType.Sheath);
+        }
     }
 
 
@@ -91,10 +99,12 @@ public class InputManager : MonoBehaviour
         if (_isTimerRunning) _elapsedTime += Time.fixedDeltaTime;
     }
 
-    private void UpdateInputs(int playerIndex, ActionType type, bool uncovered)
+    public void UpdateInputs(int playerIndex, ActionType type, bool uncovered)
     {
+        // Debug.Log($"Updating input for player {playerIndex}: {type} is {(uncovered ? "un" : "")}covered.");
         _currentActions[playerIndex] = UpdatePosition(type, uncovered);
         OnPlayerPositionChanged?.Invoke(playerIndex, _currentActions[playerIndex]);
+        Debug.Log($"The player{playerIndex+1}'s sword position has been updated to {_currentActions[playerIndex]}");
 
         if ((int)type < (int)_sequenceActions[playerIndex]) return;
         if (type == ActionType.Sheath)
@@ -108,7 +118,8 @@ public class InputManager : MonoBehaviour
             {
                 StopTimer();
                 _isSequenceStarted = false;
-                OnPlayerActionInput.Invoke(playerIndex, _sequenceActions[playerIndex]);
+                OnPlayerActionInput?.Invoke(playerIndex, _sequenceActions[playerIndex]);
+                _sequenceActions[playerIndex] = ActionType.Sheath;
             }
         }
     }
@@ -121,9 +132,10 @@ public class InputManager : MonoBehaviour
             ActionType.Attack => (uncov ? ActionType.Attack : ActionType.Feint),
             ActionType.Crit => (uncov ? ActionType.Crit : ActionType.Attack),
             ActionType.Counter => (uncov ? ActionType.Counter : ActionType.Crit),
-            _ => ActionType.Sheath,
+            _ => ActionType.Feint,
         };
     }
+    
     private void StartTimer()
     {
         _isTimerRunning = true;
@@ -137,5 +149,4 @@ public class InputManager : MonoBehaviour
         _elapsedTime = 0;
         return givenTime;
     }
-
 }

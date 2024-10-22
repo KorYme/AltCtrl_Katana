@@ -16,12 +16,12 @@
                 },
                 {
                     "name": "P2Unsheath",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "5ae77527-c9ca-467d-8f47-3013517b99d9",
                     "expectedControlType": "Button",
                     "processors": "Invert",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "P1AttackInput",
@@ -82,7 +82,7 @@
                 {
                     "name": "",
                     "id": "dc88449b-36e0-477e-be4c-6dfb1246cf6a",
-                    "path": "<Keyboard>/r",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -126,7 +126,7 @@
                 {
                     "name": "",
                     "id": "bc295378-d0fc-4a54-9b98-c1fb44bedc89",
-                    "path": "<Keyboard>/u",
+                    "path": "<Keyboard>/leftShift",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

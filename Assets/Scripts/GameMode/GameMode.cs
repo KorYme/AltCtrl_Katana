@@ -14,6 +14,9 @@ public abstract class GameMode : MonoBehaviour
 
     protected Round _currentRound;
 
+    [SerializeField] protected string _sceneName;
+    public string SceneName => _sceneName;
+    
     protected bool _areBothPlayersReady;
     public abstract void StartGameMode();
     public abstract void StopGameMode();

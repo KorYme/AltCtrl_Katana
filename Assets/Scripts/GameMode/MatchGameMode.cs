@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MatchGameMode : GameMode
 {
@@ -9,7 +10,6 @@ public class MatchGameMode : GameMode
     public override void StartGameMode()
     {
         _currentRound = new DuelRound();
-        // Open the scene and play animation
         // Wait for animation to end
         // Wait for player to be ready => Add a method in InputManager
         _currentRound?.StartRound(_duelRoundData);

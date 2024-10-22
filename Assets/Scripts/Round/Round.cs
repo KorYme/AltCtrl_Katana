@@ -1,12 +1,9 @@
 using System;
-
-public enum RoundType
-{
-    Duel,
-}
+using UnityEngine;
 
 public enum RoundResult
 {
+    OnGoing,
     Player1Victory,
     Player2Victory,
     Draw,
@@ -41,6 +38,7 @@ public abstract class Round
 
     public virtual void StopRound(RoundResult result)
     {
+        InstanceManager.UIManager.OnDisplayWinner?.Invoke(result);
         OnRoundEnd?.Invoke(result);
         _roundTime = -1f;
     }

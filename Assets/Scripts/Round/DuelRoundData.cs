@@ -1,11 +1,11 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = nameof(DuelRoundData), menuName = "Content/RoundData/" + nameof(DuelRoundData))]
 public class DuelRoundData : RoundData
 {
     [SerializeField, Min(0f)] private float _triggerMinTime;
     [SerializeField, Min(0f)] private float _triggerMaxTime;
+    [field: SerializeField] public ActionType MinimumActionToCount { get; private set; }
 
     public float GetRandomTimer()
     {
@@ -16,11 +16,7 @@ public class DuelRoundData : RoundData
     {
         if (_triggerMinTime > _triggerMaxTime)
         {
-            _triggerMinTime = _triggerMaxTime;
-        }
-        if (MaxRoundTime < _triggerMaxTime)
-        {
-            MaxRoundTime = _triggerMaxTime;
+            _triggerMaxTime = _triggerMinTime;
         }
     }
 }
