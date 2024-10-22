@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 1724625437912382545}
   - component: {fileID: 8070237263480943226}
   - component: {fileID: 1237177757665316061}
+  - component: {fileID: 5798625846855294073}
   m_Layer: 5
-  m_Name: Blue_Guy
+  m_Name: Blue_Samurai
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,6 +76,27 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!95 &5798625846855294073
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3332814782653983044}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3980805623121115168
 GameObject:
   m_ObjectHideFlags: 0
@@ -86,8 +108,9 @@ GameObject:
   - component: {fileID: 3843495465719440784}
   - component: {fileID: 7545784609503585744}
   - component: {fileID: 211981443415313044}
+  - component: {fileID: 1897777304293924435}
   m_Layer: 5
-  m_Name: Red_Guy
+  m_Name: Red_Samurai
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -150,6 +173,27 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!95 &1897777304293924435
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3980805623121115168}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7589150848867865241
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,5 +244,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f714a5667fbfd7a4fa2225f3cbf6f7e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _redSamuraiImage: {fileID: 211981443415313044}
-  _blueSamuraiImage: {fileID: 1237177757665316061}
+  _redSamuraiAnimator: {fileID: 1897777304293924435}
+  _blueSamuraiAnimator: {fileID: 5798625846855294073}

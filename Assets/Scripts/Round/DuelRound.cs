@@ -19,15 +19,14 @@ public class DuelRound : Round
         base.StartRound(data);
         _startTimer = duelData.GetRandomTimer();
         _minimumAction = duelData.MinimumActionToCount;
-        InstanceManager.UIManager.OnDisplayBlackTapes?.Invoke(true);
         Debug.Log($"Duel Round Time = {_startTimer}s");
+        InstanceManager.UIManager.OnDuelStarted?.Invoke();
     }
 
     public override void StopRound(RoundResult result)
     {
         InstanceManager.InputManager.OnPlayerActionInput -= OnPlayerActionInput;
         InstanceManager.InputManager.OnPlayerPositionChanged -= OnPlayerPositionChanged;
-        InstanceManager.UIManager.OnDisplayBlackTapes?.Invoke(false);
         base.StopRound(result);
     }
     protected void OnPlayerActionInput(int playerId, ActionType action)
@@ -36,7 +35,6 @@ public class DuelRound : Round
         {
             return;
         }
-        // PLAY ANIMATION SLASH AND GIVE WIN OR LOSE POSITION TO CHARACTERS
         InstanceManager.UIManager.OnFlashAnimEnded += OnFlashAnimEnded;
         InstanceManager.UIManager.OnDuelFinished.Invoke();
         void OnFlashAnimEnded()
@@ -65,8 +63,7 @@ public class DuelRound : Round
         _startTimer -= deltaTime;
         if (_startTimer <= 0f)
         {
-            InstanceManager.UIManager.OnDuelStarted?.Invoke();
-            Debug.Log("SLASH");
+            InstanceManager.UIManager.OnDuelTriggered?.Invoke();
             InstanceManager.AudioManager.PlayClip(_data.StartRoundClipName);
         }
     }

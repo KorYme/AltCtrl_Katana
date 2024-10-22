@@ -61,7 +61,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c1a4236c6149044d9be5ad061b97d9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneName: DuelScene
+  _sceneName: MatchScene
   _duelRoundData: {fileID: 11400000, guid: a9254d1a6bdcd364fabcb0c896ddc390, type: 2}
 --- !u!114 &979058920982460931
 MonoBehaviour:

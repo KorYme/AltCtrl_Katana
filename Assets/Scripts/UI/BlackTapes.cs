@@ -20,7 +20,8 @@ public class BlackTapes : MonoBehaviour
 
     private void Start()
     {
-        InstanceManager.UIManager.OnDisplayBlackTapes += OnBlackTapeDisplayed;
+        InstanceManager.UIManager.OnDuelStarted += OnBlackTapeDisplay;
+        InstanceManager.UIManager.OnDuelTriggered += OnBlackTapeHide;
         if (_blackTapes?.Count != 0)
         {
             Vector2 targetSize = new Vector2(_blackTapes[0].Rect.sizeDelta.x, 0);
@@ -34,14 +35,28 @@ public class BlackTapes : MonoBehaviour
 
     private void OnDestroy()
     {
-        InstanceManager.UIManager.OnDisplayBlackTapes -= OnBlackTapeDisplayed;
+        InstanceManager.UIManager.OnDuelStarted -= OnBlackTapeDisplay;
+        InstanceManager.UIManager.OnDuelTriggered -= OnBlackTapeHide;
     }
 
-    private void OnBlackTapeDisplayed(bool displayed)
+    private void OnBlackTapeDisplay()
     {
         if (_blackTapes?.Count != 0)
         {
-            Vector2 targetSize = new Vector2(_blackTapes[0].Rect.sizeDelta.x, displayed ? _maxSize : 0);
+            Vector2 targetSize = new Vector2(_blackTapes[0].Rect.sizeDelta.x, _maxSize);
+            foreach (BlackTapeTween btt in _blackTapes)
+            {
+                btt.Tween?.Kill();
+                btt.Tween = btt.Rect.DOSizeDelta(targetSize, _animationTime).SetEase(_easeValue);
+            }
+        }
+    }
+    
+    private void OnBlackTapeHide()
+    {
+        if (_blackTapes?.Count != 0)
+        {
+            Vector2 targetSize = new Vector2(_blackTapes[0].Rect.sizeDelta.x, 0);
             foreach (BlackTapeTween btt in _blackTapes)
             {
                 btt.Tween?.Kill();

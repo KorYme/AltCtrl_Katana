@@ -10,15 +10,22 @@ public class UIManager : MonoBehaviour
             Destroy(gameObject);
         }
         InstanceManager.UIManager = this;
+        transform.parent = null;
         DontDestroyOnLoad(gameObject);
     }
 
     // COMMON
-    public Action<bool> OnDisplayBlackTapes;        // Called when black tapes must be displayed
-    public Action<RoundResult> OnDisplayWinner;     // Called when you want to display the winner text
+    // Called when flash anim ended
+    public Action OnFlashAnimEnded;
+    // Called when you want to display the winner text
+    public Action<RoundResult> OnDisplayWinner;
     
     // DUEL
-    public Action OnDuelStarted;                    // Called when players can attack
-    public Action OnDuelFinished;                   // Called when a player slash first
-    public Action OnFlashAnimEnded;                 // Called when flash anim ended
+    // Called when duel round starts
+    public Action OnDuelStarted;
+    // Called when players can attack
+    public Action OnDuelTriggered;
+    // Called when a player slash first
+    public Action OnDuelFinished;
+
 }

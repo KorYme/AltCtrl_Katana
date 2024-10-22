@@ -39,6 +39,8 @@ public class InputManager : MonoBehaviour
     public event Action<int, ActionType> OnPlayerActionInput; // IS INVOKED WHEN A PLAYER SHEATH HIS SWORD, RETURNS MAX ACTION TYPE REACHED
     public event Action<int, ActionType> OnPlayerPositionChanged; // IS INVOKED WHEN A PLAYER TRIGGER OR UNTRIGGER A ZONE ON THE SWORD, RETURN THE POSITION OF THE SWORD
 
+    [SerializeField] private GameObject _eventSystem;
+    
     [SerializeField] List<InputBinding> _bindings;
 
     private Dictionary<int, ActionType> _currentActions = new Dictionary<int, ActionType>();
@@ -81,7 +83,9 @@ public class InputManager : MonoBehaviour
             Destroy(gameObject);
         }
         InstanceManager.InputManager = this;
+        transform.parent = null;
         DontDestroyOnLoad(gameObject);
+        _eventSystem.SetActive(true);
         for (int i = 0; i < 2; i++)
         {
             _currentActions.Add(i, ActionType.Sheath);

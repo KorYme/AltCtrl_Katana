@@ -25,6 +25,7 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
         }
         InstanceManager.AudioManager = this;
+        transform.parent = null;
         DontDestroyOnLoad(gameObject);
     }
 

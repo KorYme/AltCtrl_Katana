@@ -10,7 +10,6 @@ public class MatchGameMode : GameMode
     public override void StartGameMode()
     {
         _currentRound = new DuelRound();
-        SceneManager.LoadScene(_sceneName, LoadSceneMode.Single);
         // Wait for animation to end
         // Wait for player to be ready => Add a method in InputManager
         _currentRound?.StartRound(_duelRoundData);
