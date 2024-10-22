@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,111 +16,98 @@ public class UIPlayersReadyBehaviour : MonoBehaviour
 
     private Coroutine _swordLerpCoroutine = default;
     private Coroutine _swordCancelLerpCoroutine = default;
-    private bool _isSwordTransitionCancelled;
-
+    private bool _isTransitionCancelRequested;
+    private bool _isTransitionReactivated;
     private void Start()
     {
         InstanceManager.UIManager.OnPlayerReadyStateUpdateRequest += OnPlayerReadyStateUpdate;
         InstanceManager.UIManager.OnTransitionRequest += OnBothPlayersReadyUpdate;
         InstanceManager.UIManager.OnTransitionCancelRequest += OnPlayersReadyTransitionCancelRequest;
+
+
     }
 
     private void OnPlayerReadyStateUpdate(int ind, bool isReady) => UIUpdatePlayerReadyState(ind, isReady);
-    private void OnBothPlayersReadyUpdate() => UIStartSwordTransition();
+    private void OnBothPlayersReadyUpdate() => UISwordTransition(0f, false);
 
     private void OnPlayersReadyTransitionCancelRequest() => UICancelSwordTransition();
     private void UIUpdatePlayerReadyState(int ind, bool isReady)
     {
-        UISwordList[ind].color = isReady ? Color.white : Color.black; // placeholder
+        Color oldColor = UISwordList[ind].color;
+        UISwordList[ind].color = isReady ? new Color(oldColor.r, oldColor.g, oldColor.b, 255) : new Color(oldColor.r, oldColor.g, oldColor.b, 50); // placeholder, CHANGE LATER
     }
 
-    private void UIStartSwordTransition()
+    private void UISwordTransition(float time, bool isCancelled)
     {
+        if (isCancelled) Debug.Log("Transition CANCEL Requested");
+        else Debug.Log("Transition Requested");
 
-        // uhhhhhhh
-
-
-        //if (_swordCancelLerpCoroutine != default)
-        //{
-        //    StopCoroutine(_swordCancelLerpCoroutine);
-        //    _swordCancelLerpCoroutine = default;
-        //}
-        //else if (_swordLerpCoroutine == default) _swordLerpCoroutine = StartCoroutine(SwordLerpIntro(0f, false));
+        if (!isCancelled) // Normal transition
+        {
+            if (_swordLerpCoroutine != default) return; // return if transition is already active
+            if (_swordCancelLerpCoroutine != default) // if reactivating transition while cancelling (player is ready again)
+            {
+                // stop the transition cancel (cancel the cancel :pou:)
+                _isTransitionReactivated = true;
+                _swordCancelLerpCoroutine = default;
+                return;
+            }
+            else _swordLerpCoroutine = StartCoroutine(SwordLerpTransition(time, false)); // start the transition from where it was
+        }
+        else
+        {
+            if (_swordCancelLerpCoroutine != default) return; // return if cancelling is already active
+            if (_swordLerpCoroutine == default) return; // return if no transition is active
+            StopCoroutine(_swordLerpCoroutine);
+            _swordLerpCoroutine = default;
+            _swordCancelLerpCoroutine = StartCoroutine(SwordLerpTransition(time, true));
+        }
 
     }
-
     private void UICancelSwordTransition()
     {
-        // UHHHHHHHH
-
-        //if(!_isSwordTransitionCancelled && _swordLerpCoroutine == null) return;
-        //_isSwordTransitionCancelled = true;
+        if (_isTransitionCancelRequested || _swordLerpCoroutine == default) return;
+        _isTransitionCancelRequested = true;
     }
-    private IEnumerator SwordLerpIntro(float time, bool isCancelled)
+
+    private IEnumerator SwordLerpTransition(float time, bool isCancelled)
     {
         float currentTime = time;
 
-        Vector3 p1SwordPos = UISwordList[0].rectTransform.position;
-        Vector3 p2SwordPos = UISwordList[1].rectTransform.position;
+        // startPos and targetPos are switched when the transition is cancelled
+        Vector3 p1Start = !isCancelled ? UISwordList[0].rectTransform.position : UITargetPosList[0].position;
+        Vector3 p2Start = !isCancelled ? UISwordList[1].rectTransform.position : UITargetPosList[1].position;
 
-        Vector3 p1LerpVect;
-        Vector3 p2LerpVect;
-
+        Vector3 p1Target = !isCancelled ? UITargetPosList[0].position : UISwordList[0].rectTransform.position;
+        Vector3 p2Target = !isCancelled ? UITargetPosList[1].position : UISwordList[1].rectTransform.position;
 
         while (currentTime < _transitionDuration)
         {
             currentTime += Time.deltaTime;
             float t = currentTime / _transitionDuration;
-            p1LerpVect = Vector3.Lerp(p1SwordPos, UITargetPosList[0].position, t);
-            p2LerpVect = Vector3.Lerp(p2SwordPos, UITargetPosList[1].position, t);
 
+            Vector3 p1LerpVect = Vector3.Lerp(p1Start, p1Target, t);
+            Vector3 p2LerpVect = Vector3.Lerp(p2Start, p2Target, t);
             UISwordList[0].rectTransform.position = p1LerpVect;
             UISwordList[1].rectTransform.position = p2LerpVect;
-            if (_isSwordTransitionCancelled)
+
+            if (_isTransitionCancelRequested && !isCancelled)
             {
-                if (isCancelled)
-                    // should call canceltrnasition instead
-                    _swordCancelLerpCoroutine = StartCoroutine(SwordLerpCancel());
+                UISwordTransition(currentTime, isCancelled);
+                yield break;
+            }
+            if (_isTransitionReactivated && isCancelled)
+            {
+                UISwordTransition(currentTime, isCancelled);
                 yield break;
             }
             yield return null;
         }
 
-        UISwordList[0].rectTransform.position = UITargetPosList[0].position;
-        UISwordList[1].rectTransform.position = UITargetPosList[1].position;
-        InstanceManager.UIManager.OnSwordTransitionComplete?.Invoke();
-    }
-    private IEnumerator SwordLerpCancel()
-    {
-        float currentTime = 0.0f;
+        UISwordList[0].rectTransform.position = p1Target;
+        UISwordList[1].rectTransform.position = p2Target;
 
-        Vector3 p1SwordPos = UISwordList[0].rectTransform.position;
-        Vector3 p2SwordPos = UISwordList[1].rectTransform.position;
-
-        Vector3 p1LerpVect;
-        Vector3 p2LerpVect;
-
-
-        while (currentTime < _transitionDuration)
-        {
-            currentTime += Time.deltaTime;
-            float t = currentTime / _transitionDuration;
-            p1LerpVect = Vector3.Lerp(p1SwordPos, UITargetPosList[0].position, t);
-            p2LerpVect = Vector3.Lerp(p2SwordPos, UITargetPosList[1].position, t);
-
-            UISwordList[0].rectTransform.position = p1LerpVect;
-            UISwordList[1].rectTransform.position = p2LerpVect;
-            //if ()
-            //{
-            //    _swordCancelLerpCoroutine = StartCoroutine();
-            //    yield break;
-            //}
-            yield return null;
-        }
-
-        UISwordList[0].rectTransform.position = UITargetPosList[0].position;
-        UISwordList[1].rectTransform.position = UITargetPosList[1].position;
-        InstanceManager.UIManager.OnSwordTransitionComplete?.Invoke();
+        InstanceManager.UIManager.OnTransitionComplete?.Invoke();
     }
 
 }

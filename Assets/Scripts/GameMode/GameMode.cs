@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Playables;
 
@@ -16,8 +17,8 @@ public abstract class GameMode : MonoBehaviour
 
     [SerializeField] protected string _sceneName;
     public string SceneName => _sceneName;
-    
-    protected bool _areBothPlayersReady;
+
+    protected bool _isTransitionComplete;
     public abstract void StartGameMode();
     public abstract void StopGameMode();
     public abstract void UpdateGameMode(float deltaTime);
@@ -25,6 +26,7 @@ public abstract class GameMode : MonoBehaviour
     private void OnEnable()
     {
         InstanceManager.InputManager.OnPlayerPositionChanged += OnPlayerPositionChanged;
+        InstanceManager.UIManager.OnTransitionComplete += OnTransitionComplete;
     }
 
     private void OnDisable()
@@ -33,16 +35,16 @@ public abstract class GameMode : MonoBehaviour
     }
 
     private void OnPlayerPositionChanged(int ind, ActionType state) => CheckPlayersState();
+    private void OnTransitionComplete() => _isTransitionComplete = true;
 
 
-    protected virtual void OnStartNewRound()
+    private void Start()
     {
-
+        Invoke("CheckPlayersState", 2.5f);
     }
-
     private void CheckPlayersState()
     {
-        if (_areBothPlayersReady) return;
+        if (_isTransitionComplete) return;
         bool arePlayersReady = true;
         for (int i = 0; i < 2; i++)
         {
@@ -51,15 +53,18 @@ public abstract class GameMode : MonoBehaviour
             {
                 arePlayersReady = false;
                 InstanceManager.UIManager.OnPlayerReadyStateUpdateRequest?.Invoke(i, false);
-                break;
             }
             else
             {
                 InstanceManager.UIManager.OnPlayerReadyStateUpdateRequest?.Invoke(i, true);
-                break;
+                Debug.Log($"Player {i + 1} is ready !");
             }
         }
-        if (arePlayersReady) InstanceManager.UIManager.OnTransitionRequest?.Invoke();
+        if (arePlayersReady)
+        {
+            Debug.Log("BOTH PLAYERS READY. Launching transition...");
+            InstanceManager.UIManager.OnTransitionRequest?.Invoke();
+        }
         else InstanceManager.UIManager.OnTransitionCancelRequest?.Invoke();
     }
 

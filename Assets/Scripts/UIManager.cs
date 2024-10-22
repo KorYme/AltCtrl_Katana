@@ -29,12 +29,10 @@ public class UIManager : MonoBehaviour
     // Called when a player slash first
     public Action OnDuelFinished;
 
-}
     // UPDATE
-    public Action OnSwordTransitionComplete;
+    public Action OnTransitionComplete;
 
     // REQUEST
-    public Action OnDuelTriggered;
     public Action<int, bool> OnPlayerReadyStateUpdateRequest;
     public Action OnTransitionRequest;
     public Action OnTransitionCancelRequest;
