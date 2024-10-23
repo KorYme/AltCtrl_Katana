@@ -96,10 +96,16 @@ public class UIPlayersReadyBehaviour : MonoBehaviour
 
         if (_currentElapsedTime >= _transitionDuration)
         {
-            InstanceManager.UIManager.OnTransitionComplete?.Invoke();
             _isTransitionning = false;
+            Invoke("CompleteTransition", 2f);
         }
 
     }
-    
+
+    private void CompleteTransition()
+    {
+        InstanceManager.UIManager.OnTransitionComplete?.Invoke();
+        InstanceManager.GameManager.LoadGamemodeScene(0);
+
+    }
 }

@@ -40,7 +40,6 @@ public abstract class GameMode : MonoBehaviour
     {
         InstanceManager.InputManager.OnPlayerPositionChanged += OnPlayerPositionChanged;
         InstanceManager.UIManager.OnTransitionComplete += OnTransitionComplete;
-        Invoke("CheckPlayersState", 2.5f);
     }
 
     private void OnDestroy()
