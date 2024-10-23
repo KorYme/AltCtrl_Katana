@@ -8,8 +8,9 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private List<GameMode> _gameModeManagers;
-
+    public bool requireSheathing;
     private GameMode _currentGameMode;
+    
     
     private void Awake()
     {
@@ -21,6 +22,7 @@ public class GameManager : MonoBehaviour
         transform.parent = null;
         DontDestroyOnLoad(gameObject);
     }
+
 
     private void Update()
     {

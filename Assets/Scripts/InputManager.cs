@@ -58,6 +58,7 @@ public class InputManager : MonoBehaviour
     {
         foreach (InputBinding binding in _bindings)
         {
+            
             binding.actionRef.action.Enable();
             binding.actionRef.action.canceled += binding.BindStartInput;
             binding.actionRef.action.started += binding.BindCancelInput;
@@ -104,7 +105,7 @@ public class InputManager : MonoBehaviour
         // Debug.Log($"Updating input for player {playerIndex}: {type} is {(uncovered ? "un" : "")}covered.");
         _currentActions[playerIndex] = UpdatePosition(type, uncovered);
         OnPlayerPositionChanged?.Invoke(playerIndex, _currentActions[playerIndex]);
-        Debug.Log($"Player {playerIndex + 1}'s sword position has been updated to {_currentActions[playerIndex]}");
+        //Debug.Log($"Player {playerIndex + 1}'s sword position has been updated to {_currentActions[playerIndex]}");
 
         if ((int)type < (int)_sequenceActions[playerIndex]) return;
         if (type == ActionType.Sheath)

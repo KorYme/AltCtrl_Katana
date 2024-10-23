@@ -11,6 +11,7 @@ public class UIPlayersReadyBehaviour : MonoBehaviour
     [Header("Transition Parameters")]
     [SerializeField] private float _transitionDuration;
     [SerializeField] private AnimationCurve _transitionEaseEffect;
+    [SerializeField] private AnimationCurve _transitionCancelEaseEffect;
 
     [Header("Componnents")]
     [SerializeField] List<Image> UISwordList = new List<Image>();
@@ -86,7 +87,8 @@ public class UIPlayersReadyBehaviour : MonoBehaviour
         _currentElapsedTime += _isTransitionCanceled ? -Time.fixedDeltaTime : Time.fixedDeltaTime;
         _currentElapsedTime = Mathf.Clamp(_currentElapsedTime, 0, _transitionDuration);
         float t = _isTransitionCanceled ? 1 - (_currentElapsedTime / _transitionDuration) : _currentElapsedTime / _transitionDuration;
-        t = _transitionEaseEffect.Evaluate(t);
+        t = _isTransitionCanceled ? _transitionCancelEaseEffect.Evaluate(t) : _transitionEaseEffect.Evaluate(t);
+        
 
         // startPos and targetPos are switched when the transition is cancelled
         Vector3 p1LerpVect = Vector3.Lerp(_p1StartPos, _p1TargetPos, t);
@@ -96,10 +98,16 @@ public class UIPlayersReadyBehaviour : MonoBehaviour
 
         if (_currentElapsedTime >= _transitionDuration)
         {
-            InstanceManager.UIManager.OnTransitionComplete?.Invoke();
             _isTransitionning = false;
+            Invoke("CompleteTransition", 2f);
         }
 
     }
-    
+
+    private void CompleteTransition()
+    {
+        InstanceManager.UIManager.OnTransitionComplete?.Invoke();
+        InstanceManager.GameManager.LoadGamemodeScene(0);
+
+    }
 }

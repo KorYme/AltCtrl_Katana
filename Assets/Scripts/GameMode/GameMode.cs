@@ -18,6 +18,7 @@ public abstract class GameMode : MonoBehaviour
     [SerializeField] protected string _sceneName;
     public string SceneName => _sceneName;
 
+    [SerializeField] protected bool _shouldRequestSheath;
     protected bool _isTransitionComplete;
     public abstract void StartGameMode();
     public abstract void StopGameMode();
@@ -40,7 +41,6 @@ public abstract class GameMode : MonoBehaviour
     {
         InstanceManager.InputManager.OnPlayerPositionChanged += OnPlayerPositionChanged;
         InstanceManager.UIManager.OnTransitionComplete += OnTransitionComplete;
-        Invoke("CheckPlayersState", 2.5f);
     }
 
     private void OnDestroy()
