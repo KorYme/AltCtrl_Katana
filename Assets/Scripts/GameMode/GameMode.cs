@@ -18,6 +18,7 @@ public abstract class GameMode : MonoBehaviour
     [SerializeField] protected string _sceneName;
     public string SceneName => _sceneName;
 
+    [SerializeField] protected bool _shouldRequestSheath;
     protected bool _isTransitionComplete;
     public abstract void StartGameMode();
     public abstract void StopGameMode();
