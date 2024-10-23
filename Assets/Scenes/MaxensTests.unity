@@ -443,6 +443,74 @@ PrefabInstance:
       propertyPath: UITargetPosList.Array.data[1]
       value: 
       objectReference: {fileID: 503132100}
+    - target: {fileID: 3580328705115622361, guid: c3acae0549fbbef49bd3d01f5ff623fe, type: 3}
+      propertyPath: _transitionEaseEffect.m_Curve.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580328705115622361, guid: c3acae0549fbbef49bd3d01f5ff623fe, type: 3}
+      propertyPath: _transitionEaseEffect.m_Curve.Array.data[1].time
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580328705115622361, guid: c3acae0549fbbef49bd3d01f5ff623fe, type: 3}
+      propertyPath: _transitionEaseEffect.m_Curve.Array.data[2].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580328705115622361, guid: c3acae0549fbbef49bd3d01f5ff623fe, type: 3}
+      propertyPath: _transitionEaseEffect.m_Curve.Array.data[3].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580328705115622361, guid: c3acae0549fbbef49bd3d01f5ff623fe, type: 3}
+      propertyPath: _transitionEaseEffect.m_Curve.Array.data[1].value
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580328705115622361, guid: c3acae0549fbbef49bd3d01f5ff623fe, type: 3}
+      propertyPath: _transitionEaseEffect.m_Curve.Array.data[2].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580328705115622361, guid: c3acae0549fbbef49bd3d01f5ff623fe, type: 3}
+      propertyPath: _transitionEaseEffect.m_Curve.Array.data[3].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580328705115622361, guid: c3acae0549fbbef49bd3d01f5ff623fe, type: 3}
+      propertyPath: _transitionEaseEffect.m_Curve.Array.data[0].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580328705115622361, guid: c3acae0549fbbef49bd3d01f5ff623fe, type: 3}
+      propertyPath: _transitionEaseEffect.m_Curve.Array.data[1].inSlope
+      value: 2.5051453
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580328705115622361, guid: c3acae0549fbbef49bd3d01f5ff623fe, type: 3}
+      propertyPath: _transitionEaseEffect.m_Curve.Array.data[2].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580328705115622361, guid: c3acae0549fbbef49bd3d01f5ff623fe, type: 3}
+      propertyPath: _transitionEaseEffect.m_Curve.Array.data[0].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580328705115622361, guid: c3acae0549fbbef49bd3d01f5ff623fe, type: 3}
+      propertyPath: _transitionEaseEffect.m_Curve.Array.data[1].inWeight
+      value: 0.2883875
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580328705115622361, guid: c3acae0549fbbef49bd3d01f5ff623fe, type: 3}
+      propertyPath: _transitionEaseEffect.m_Curve.Array.data[1].outSlope
+      value: 2.5051453
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580328705115622361, guid: c3acae0549fbbef49bd3d01f5ff623fe, type: 3}
+      propertyPath: _transitionEaseEffect.m_Curve.Array.data[2].inWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580328705115622361, guid: c3acae0549fbbef49bd3d01f5ff623fe, type: 3}
+      propertyPath: _transitionEaseEffect.m_Curve.Array.data[2].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580328705115622361, guid: c3acae0549fbbef49bd3d01f5ff623fe, type: 3}
+      propertyPath: _transitionEaseEffect.m_Curve.Array.data[1].outWeight
+      value: 0.20327103
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580328705115622361, guid: c3acae0549fbbef49bd3d01f5ff623fe, type: 3}
+      propertyPath: _transitionEaseEffect.m_Curve.Array.data[2].outWeight
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7934858824274939391, guid: c3acae0549fbbef49bd3d01f5ff623fe, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -9

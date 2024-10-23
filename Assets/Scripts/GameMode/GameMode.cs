@@ -25,13 +25,11 @@ public abstract class GameMode : MonoBehaviour
 
     private void OnEnable()
     {
-        InstanceManager.InputManager.OnPlayerPositionChanged += OnPlayerPositionChanged;
-        InstanceManager.UIManager.OnTransitionComplete += OnTransitionComplete;
     }
+
 
     private void OnDisable()
     {
-        InstanceManager.InputManager.OnPlayerPositionChanged -= OnPlayerPositionChanged;
     }
 
     private void OnPlayerPositionChanged(int ind, ActionType state) => CheckPlayersState();
@@ -40,7 +38,15 @@ public abstract class GameMode : MonoBehaviour
 
     private void Start()
     {
+        InstanceManager.InputManager.OnPlayerPositionChanged += OnPlayerPositionChanged;
+        InstanceManager.UIManager.OnTransitionComplete += OnTransitionComplete;
         Invoke("CheckPlayersState", 2.5f);
+    }
+
+    private void OnDestroy()
+    {
+        InstanceManager.InputManager.OnPlayerPositionChanged -= OnPlayerPositionChanged;
+        InstanceManager.UIManager.OnTransitionComplete -= OnTransitionComplete;
     }
     private void CheckPlayersState()
     {
