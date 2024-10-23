@@ -12,7 +12,6 @@ public class ReadyCountTimer : MonoBehaviour
     {
         InstanceManager.UIManager.OnDuelStarted += DisplayReady;
         InstanceManager.UIManager.OnDuelTriggered += DisplayGo;
-        _textDisplay.transform.localScale = Vector3.one * .2f;
     }
     
     private void OnDestroy()
@@ -23,8 +22,8 @@ public class ReadyCountTimer : MonoBehaviour
 
     private void DisplayReady()
     {
-        _textDisplay.color = Color.white;
-        _textDisplay.text = "Ready ?";
+        // _textDisplay.color = Color.white;
+        // _textDisplay.text = "Ready ?";
     }
 
     private void DisplayGo()

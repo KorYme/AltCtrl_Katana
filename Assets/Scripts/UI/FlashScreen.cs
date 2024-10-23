@@ -26,10 +26,6 @@ public class FlashScreen : MonoBehaviour
     public void OnFlashFull()
     {
         _charactersBehaviour.SwitchSamuraiPlaces();
-    }
-
-    public void OnFlashEnded()
-    {
         InstanceManager.UIManager.OnFlashAnimEnded?.Invoke();
     }
 }
