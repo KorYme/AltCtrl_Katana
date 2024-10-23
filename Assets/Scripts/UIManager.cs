@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
         InstanceManager.UIManager = this;
         transform.parent = null;
         DontDestroyOnLoad(gameObject);
+
     }
 
     // COMMON
@@ -28,4 +29,12 @@ public class UIManager : MonoBehaviour
     // Called when a player slash first
     public Action OnDuelFinished;
 
+    // UPDATE
+    public Action OnTransitionComplete;
+
+    // REQUEST
+    public Action<int, bool> OnPlayerReadyStateUpdateRequest;
+    public Action OnTransitionRequest;
+    public Action OnTransitionCancelRequest;
+    public Action<bool> OnFadeRequested;
 }
