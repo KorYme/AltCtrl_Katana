@@ -1,12 +1,15 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class DuelRound : Round
 {
     protected float _startTimer;
+    protected float _delayTimer;
     protected ActionType _minimumAction;
 
+    protected Dictionary<int, ActionType> _duelActions = new Dictionary<int, ActionType>();
+    
     public override void StartRound(RoundData data)
     {
         if (data is not DuelRoundData duelData)
@@ -18,7 +21,12 @@ public class DuelRound : Round
         // ADD WAITING OR PREPARING UI
         base.StartRound(data);
         _startTimer = duelData.GetRandomTimer();
+        _delayTimer = duelData.DelayAfterInput;
         _minimumAction = duelData.MinimumActionToCount;
+        for (int i = 0; i < 2; i++)
+        {
+            _duelActions.Add(i, ActionType.Sheath);
+        }
         Debug.Log($"Duel Round Time = {_startTimer}s");
         InstanceManager.UIManager.OnDuelStarted?.Invoke();
     }
@@ -29,18 +37,29 @@ public class DuelRound : Round
         InstanceManager.InputManager.OnPlayerPositionChanged -= OnPlayerPositionChanged;
         base.StopRound(result);
     }
+    
     protected void OnPlayerActionInput(int playerId, ActionType action)
     {
-        if (action < _minimumAction || _startTimer > 0f)
+        if (_startTimer > 0f || _roundResult != RoundResult.OnGoing)
         {
             return;
         }
-        InstanceManager.UIManager.OnFlashAnimEnded += OnFlashAnimEnded;
-        InstanceManager.UIManager.OnDuelFinished.Invoke();
-        void OnFlashAnimEnded()
+        if (_duelActions.TryGetValue(playerId, out ActionType actionType))
         {
-            InstanceManager.UIManager.OnFlashAnimEnded -= OnFlashAnimEnded;
-            StopRound(playerId == 0 ? RoundResult.Player1Victory : RoundResult.Player2Victory);
+            if (action > actionType)
+            {
+                _duelActions[playerId] = action;
+            }
+            else if (action == ActionType.Sheath && actionType >= _minimumAction)
+            {
+                _roundResult = playerId switch
+                {
+                    0 => RoundResult.Player1Victory,
+                    1 => RoundResult.Player2Victory,
+                    _ => RoundResult.Draw,
+                };
+                InstanceManager.UIManager.OnDuelInput.Invoke(_roundResult);
+            }
         }
     }
 
@@ -55,6 +74,24 @@ public class DuelRound : Round
 
     public override void Update(float deltaTime)
     {
+        if (_roundResult != RoundResult.OnGoing && _delayTimer > 0f)
+        {
+            _delayTimer -= deltaTime;
+            if (_delayTimer <= 0f)
+            {
+                InstanceManager.UIManager.OnFlashAnimEnded += OnFlashAnimEnded;
+                InstanceManager.UIManager.OnDuelFinished.Invoke(_roundResult);
+                void OnFlashAnimEnded()
+                {
+                    InstanceManager.UIManager.OnFlashAnimEnded -= OnFlashAnimEnded;
+                    StopRound(_roundResult);
+                }
+            }
+        }
+        if (_roundResult != RoundResult.OnGoing)
+        {
+            return;
+        }
         if (_startTimer <= 0f)
         {
             base.Update(deltaTime);

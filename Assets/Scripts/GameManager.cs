@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,7 +7,6 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private List<GameMode> _gameModeManagers;
-    public bool requireSheathing;
     private GameMode _currentGameMode;
     
     
@@ -17,6 +15,7 @@ public class GameManager : MonoBehaviour
         if (InstanceManager.GameManager != null)
         {
             Destroy(gameObject);
+            return;
         }
         InstanceManager.GameManager = this;
         transform.parent = null;
@@ -24,6 +23,15 @@ public class GameManager : MonoBehaviour
     }
 
 
+    private void Start()
+    {
+        InstanceManager.UIManager.OnReturnToMenuRequest += ReturnToMainMenu;
+    }
+
+    private void OnDestroy()
+    {
+        
+    }
     private void Update()
     {
         _currentGameMode?.UpdateGameMode(Time.deltaTime);
@@ -68,8 +76,12 @@ public class GameManager : MonoBehaviour
             Debug.LogError("No gamemode has been found with this id, make sure it is referenced in the GameManager");
             return;
         }
-        _currentGameMode?.StopGameMode();
         _currentGameMode = gameMode;
         _currentGameMode?.StartGameMode();
+    }
+
+    private void ReturnToMainMenu()
+    {
+        _currentGameMode.StopGameMode();
     }
 }
