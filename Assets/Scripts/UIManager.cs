@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
         if (InstanceManager.UIManager != null)
         {
             Destroy(gameObject);
+            return;
         }
         InstanceManager.UIManager = this;
         transform.parent = null;
@@ -26,8 +27,10 @@ public class UIManager : MonoBehaviour
     public Action OnDuelStarted;
     // Called when players can attack
     public Action OnDuelTriggered;
-    // Called when a player slash first
-    public Action OnDuelFinished;
+    // Called when a player wins thanks to a sheath input
+    public Action<RoundResult> OnDuelInput;
+    // Called when feedbacks are played X secondes after a player made its input
+    public Action<RoundResult> OnDuelFinished;
 
     // UPDATE
     public Action OnTransitionComplete;

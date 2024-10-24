@@ -49,6 +49,7 @@ MonoBehaviour:
   _gameModeManagers:
   - {fileID: 4704298084894637479}
   - {fileID: 979058920982460931}
+  requireSheathing: 0
 --- !u!114 &4704298084894637479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,6 +63,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sceneName: MatchScene
+  _shouldRequestSheath: 0
   _duelRoundData: {fileID: 11400000, guid: a9254d1a6bdcd364fabcb0c896ddc390, type: 2}
 --- !u!114 &979058920982460931
 MonoBehaviour:
@@ -76,3 +78,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sceneName: 
+  _shouldRequestSheath: 0
