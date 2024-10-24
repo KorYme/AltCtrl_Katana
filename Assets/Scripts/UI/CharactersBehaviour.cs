@@ -1,30 +1,48 @@
+using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CharactersBehaviour : MonoBehaviour
 {
     private readonly int _attackTrigger = Animator.StringToHash("Attack");
     private readonly int _deathTrigger = Animator.StringToHash("Death");
     
-    [SerializeField] private Animator _redSamuraiAnimator;
-    [SerializeField] private Animator _blueSamuraiAnimator;
+    [SerializeField] private List<Animator> _animators;
+    private Animator BlueSamuraiAnimator => _animators[0];
+    private Animator RedSamuraiAnimator => _animators[1];
 
+    [Header("Gamefeel")]
+    [SerializeField] private TweenOptions _tweensData;
+    
     private void Start()
     {
         InstanceManager.UIManager.OnDisplayWinner += OnRoundResult;
         InstanceManager.UIManager.OnDuelInput += PlayerAttack;
+        InstanceManager.UIManager.OnFlashAnimEnded += SwitchSamuraiPlaces;
+        foreach (Animator animator in _animators)
+        {
+            DOTween.Sequence()
+                .Join(animator.transform.DOScaleX(_tweensData.CharactersBounceX.Value, _tweensData.CharactersBounceX.Duration))
+                .SetEase(_tweensData.CharactersBounceX.Ease)
+                .Join(animator.transform.DOScaleY(_tweensData.CharactersBounceY.Value, _tweensData.CharactersBounceY.Duration))
+                .SetEase(_tweensData.CharactersBounceY.Ease)
+                .SetLoops(-1, LoopType.Yoyo);
+        }
     }
     
     private void OnDestroy()
     {
         InstanceManager.UIManager.OnDisplayWinner -= OnRoundResult;
         InstanceManager.UIManager.OnDuelInput -= PlayerAttack;
+        InstanceManager.UIManager.OnFlashAnimEnded -= SwitchSamuraiPlaces;
     }
 
     public void SwitchSamuraiPlaces()
     {
-        _redSamuraiAnimator.transform.position += _blueSamuraiAnimator.transform.position;
-        _blueSamuraiAnimator.transform.position = _redSamuraiAnimator.transform.position - _blueSamuraiAnimator.transform.position;
-        _redSamuraiAnimator.transform.position -= _blueSamuraiAnimator.transform.position;
+        RedSamuraiAnimator.transform.position += BlueSamuraiAnimator.transform.position;
+        BlueSamuraiAnimator.transform.position = RedSamuraiAnimator.transform.position - BlueSamuraiAnimator.transform.position;
+        RedSamuraiAnimator.transform.position -= BlueSamuraiAnimator.transform.position;
     }
 
     private void PlayerAttack(RoundResult roundResult)
@@ -32,10 +50,10 @@ public class CharactersBehaviour : MonoBehaviour
         switch (roundResult)
         {
             case RoundResult.Player1Victory:
-                _blueSamuraiAnimator.SetTrigger(_attackTrigger);
+                BlueSamuraiAnimator.SetTrigger(_attackTrigger);
                 break;
             case RoundResult.Player2Victory:
-                _redSamuraiAnimator.SetTrigger(_attackTrigger);
+                RedSamuraiAnimator.SetTrigger(_attackTrigger);
                 break;
             default:
                 return;
@@ -47,10 +65,10 @@ public class CharactersBehaviour : MonoBehaviour
         switch (roundResult)
         {
             case RoundResult.Player1Victory:
-                _redSamuraiAnimator.SetTrigger(_deathTrigger);
+                RedSamuraiAnimator.SetTrigger(_deathTrigger);
                 return;
             case RoundResult.Player2Victory:
-                _blueSamuraiAnimator.SetTrigger(_deathTrigger);
+                BlueSamuraiAnimator.SetTrigger(_deathTrigger);
                 return;
             default:
                 return;

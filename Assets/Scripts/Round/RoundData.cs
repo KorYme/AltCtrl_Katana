@@ -6,4 +6,5 @@ public class RoundData : ScriptableObject
     [field:SerializeField] public string StartRoundClipName {  get; set; }
 
     [field: SerializeField, Min(0f)] public float MaxRoundTime { get; set; }
+    [field: SerializeField, Min(0f)] public float DisplayWinnerTime { get; set; }
 }

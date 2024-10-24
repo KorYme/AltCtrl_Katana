@@ -244,5 +244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f714a5667fbfd7a4fa2225f3cbf6f7e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _redSamuraiAnimator: {fileID: 1897777304293924435}
-  _blueSamuraiAnimator: {fileID: 5798625846855294073}
+  _animators:
+  - {fileID: 5798625846855294073}
+  - {fileID: 1897777304293924435}
+  _tweensData: {fileID: 11400000, guid: 0dd2609b451fdf34185e3e29a6fcee0a, type: 2}
