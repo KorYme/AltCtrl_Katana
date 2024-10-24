@@ -37,4 +37,6 @@ public class UIManager : MonoBehaviour
     public Action OnTransitionRequest;
     public Action OnTransitionCancelRequest;
     public Action<bool> OnFadeRequested;
+    public Action<bool> OnShowRetryActionRequest;
+    public Action OnReturnToMenuRequest;
 }
