@@ -22,6 +22,7 @@ public class UIPlayersReadyBehaviour : MonoBehaviour
     private float _currentElapsedTime;
     private bool _isTransitionning;
     private bool _isTransitionCanceled;
+    private bool _isTransitionComplete;
 
     private Vector3 _p1StartPos;
     private Vector3 _p2StartPos;
@@ -54,6 +55,7 @@ public class UIPlayersReadyBehaviour : MonoBehaviour
     private void OnPlayerReadyStateUpdate(int ind, bool isReady) => UIUpdatePlayerReadyState(ind, isReady);
     private void UIUpdatePlayerReadyState(int ind, bool isReady)
     {
+        if (_isTransitionComplete) return;
         Color oldColor = UISwordList[ind].color;
         UISwordList[ind].color = isReady ? new Color(oldColor.r, oldColor.g, oldColor.b, 1) : new Color(oldColor.r, oldColor.g, oldColor.b, 0.25f); // placeholder, CHANGE LATER
     }
@@ -99,7 +101,9 @@ public class UIPlayersReadyBehaviour : MonoBehaviour
         if (_currentElapsedTime >= _transitionDuration)
         {
             _isTransitionning = false;
-            Invoke("CompleteTransition", 2f);
+            _isTransitionComplete = true;
+            InstanceManager.AudioManager.PlayClip("Sheath");
+            Invoke("CompleteTransition", 1f);
         }
 
     }

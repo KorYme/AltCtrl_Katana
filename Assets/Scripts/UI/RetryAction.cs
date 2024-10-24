@@ -10,8 +10,19 @@ public class RetryAction : MonoBehaviour
     private Coroutine _returnCoroutine;
     private void OnEnable()
     {
-        InstanceManager.UIManager.OnDuelFinished += StartGameOptions;
+    }
+
+    private void Start()
+    {
+                InstanceManager.UIManager.OnDuelFinished += StartGameOptions;
         InstanceManager.JoyconManager.OnPlayersBow += Retry;
+
+    }
+    private void OnDestroy()
+    {
+        InstanceManager.UIManager.OnDuelFinished -= StartGameOptions;
+        InstanceManager.JoyconManager.OnPlayersBow -= Retry;
+
     }
 
     private void StartGameOptions(RoundResult nah) => _returnCoroutine = StartCoroutine(QueueReturnToMenu());
@@ -29,6 +40,8 @@ public class RetryAction : MonoBehaviour
     }
     private IEnumerator QueueReturnToMenu()
     {
+        InstanceManager.AudioManager.StopAllClips();
+        InstanceManager.AudioManager.PlayClip("RoundEnd");
         InstanceManager.UIManager.OnShowRetryActionRequest?.Invoke(true);
         yield return new WaitForSeconds(_returnToMenuLag);
         Debug.Log("Returning to menu");

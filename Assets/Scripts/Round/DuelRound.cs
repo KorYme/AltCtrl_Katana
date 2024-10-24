@@ -16,6 +16,9 @@ public class DuelRound : Round
         {
             throw new Exception($"You tried to initialize the {nameof(DuelRound)} with something else than a {nameof(DuelRoundData)}");
         }
+        InstanceManager.AudioManager.PlayClip("NewRound");
+        InstanceManager.AudioManager.PlayClip("Prepare");
+        InstanceManager.AudioManager.PlayClip("DuelTheme");
         InstanceManager.InputManager.OnPlayerActionInput += OnPlayerActionInput;
         InstanceManager.InputManager.OnPlayerPositionChanged += OnPlayerPositionChanged;
         // ADD WAITING OR PREPARING UI
@@ -31,6 +34,8 @@ public class DuelRound : Round
         InstanceManager.UIManager.OnDuelStarted?.Invoke();
     }
 
+ 
+
     public override void StopRound(RoundResult result)
     {
         InstanceManager.InputManager.OnPlayerActionInput -= OnPlayerActionInput;
@@ -40,6 +45,17 @@ public class DuelRound : Round
     
     protected void OnPlayerActionInput(int playerId, ActionType action)
     {
+        switch (playerId)
+        {
+            case 0:
+                if(action == ActionType.Counter) InstanceManager.AudioManager.PlayClip("Parry1");
+                else InstanceManager.AudioManager.PlayClip("Attack1");
+                break;
+            case 1:
+                if (action == ActionType.Counter) InstanceManager.AudioManager.PlayClip("Parry2");
+                InstanceManager.AudioManager.PlayClip("Attack2");
+                break;
+        }
         if (_startTimer > 0f || _roundResult != RoundResult.OnGoing)
         {
             return;

@@ -23,9 +23,11 @@ public class FlashScreen : MonoBehaviour
         {
             case RoundResult.Player1Victory:
                 transform.rotation = Quaternion.Euler(0, 0, 0);
+                InstanceManager.AudioManager.PlayClip("Attack1");
                 break;
             case RoundResult.Player2Victory:
                 transform.rotation = Quaternion.Euler(0, 180, 0);
+                InstanceManager.AudioManager.PlayClip("Attack2");
                 break;
             default:
                 return;

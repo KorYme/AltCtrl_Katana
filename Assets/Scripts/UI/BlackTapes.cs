@@ -54,6 +54,8 @@ public class BlackTapes : MonoBehaviour
     
     private void OnBlackTapeHide()
     {
+        InstanceManager.AudioManager.StopAllClips();
+        InstanceManager.AudioManager.PlayClip("Fight!");
         if (_blackTapes?.Count != 0)
         {
             Vector2 targetSize = new Vector2(_blackTapes[0].Rect.sizeDelta.x, 0);

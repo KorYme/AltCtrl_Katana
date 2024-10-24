@@ -284,6 +284,10 @@ PrefabInstance:
       propertyPath: _displayQuaternions
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2916580757939995530, guid: 72722df7301fd6848a9edf95e5169434, type: 3}
+      propertyPath: _sounds.Array.data[2].AudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 2197c5331573e4b4688927d710787ae7, type: 3}
     - target: {fileID: 4936169847744071215, guid: 72722df7301fd6848a9edf95e5169434, type: 3}
       propertyPath: m_Name
       value: ---Managers---
