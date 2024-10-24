@@ -45,8 +45,53 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sounds:
-  - Name: Fight!
-    AudioClip: {fileID: 0}
+  - Name: Sheath
+    AudioClip: {fileID: 8300000, guid: c905d915050827047ab5c1d866f32449, type: 3}
     Volume: 0.2
-    Pitch: 0
+    Pitch: 1
+    IsLoop: 0
+  - Name: NewRound
+    AudioClip: {fileID: 8300000, guid: 476894fdc77f3024e94d9cc8be6817eb, type: 3}
+    Volume: 0.2
+    Pitch: 1
+    IsLoop: 0
+  - Name: Prepare
+    AudioClip: {fileID: 8300000, guid: 476894fdc77f3024e94d9cc8be6817eb, type: 3}
+    Volume: 0.2
+    Pitch: 1
+    IsLoop: 0
+  - Name: DuelTheme
+    AudioClip: {fileID: 8300000, guid: f8427d9d226316243bd7cb6183fac1ee, type: 3}
+    Volume: 0.2
+    Pitch: 1
+    IsLoop: 0
+  - Name: Fight!
+    AudioClip: {fileID: 8300000, guid: bb8bde9514a92164bb6e3585fefc2625, type: 3}
+    Volume: 0.2
+    Pitch: 1
+    IsLoop: 0
+  - Name: Attack1
+    AudioClip: {fileID: 8300000, guid: 307ad712a15729340a6a7784865a8c6e, type: 3}
+    Volume: 0.2
+    Pitch: 1
+    IsLoop: 0
+  - Name: Attack2
+    AudioClip: {fileID: 8300000, guid: 573da728861d8a546917183f172385a1, type: 3}
+    Volume: 0.2
+    Pitch: 1
+    IsLoop: 0
+  - Name: Parry1
+    AudioClip: {fileID: 8300000, guid: 044cdcaefa0d9074791ecf75fbdeb31b, type: 3}
+    Volume: 0.2
+    Pitch: 1
+    IsLoop: 0
+  - Name: Parry2
+    AudioClip: {fileID: 8300000, guid: 3b9260df8fcc5674fbec514960bf9c1a, type: 3}
+    Volume: 0.2
+    Pitch: 1
+    IsLoop: 0
+  - Name: RoundEnd
+    AudioClip: {fileID: 8300000, guid: 6f72f900700101d4f8763f323655b9e6, type: 3}
+    Volume: 0.2
+    Pitch: 1
     IsLoop: 0

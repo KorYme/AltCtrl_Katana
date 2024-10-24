@@ -98,6 +98,7 @@ public class UIPlayersReadyBehaviour : MonoBehaviour
 
         if (_currentElapsedTime >= _transitionDuration)
         {
+            InstanceManager.AudioManager.PlayClip("Sheath");
             _isTransitionning = false;
             Invoke("CompleteTransition", 2f);
         }

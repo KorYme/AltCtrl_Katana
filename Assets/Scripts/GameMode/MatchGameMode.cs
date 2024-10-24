@@ -9,6 +9,7 @@ public class MatchGameMode : GameMode
 
     public override void StartGameMode()
     {
+        InstanceManager.AudioManager.PlayClip("NewRound");
         _currentRound = new DuelRound();
         // Wait for animation to end
         // Wait for player to be ready => Add a method in InputManager
