@@ -11,11 +11,13 @@ public class ReadyCountTimer : MonoBehaviour
     private void Start()
     {
         InstanceManager.UIManager.OnDuelTriggered += DisplayGo;
+        InstanceManager.UIManager.OnFlashAnimEnded += HideGo;
     }
     
     private void OnDestroy()
     {
         InstanceManager.UIManager.OnDuelTriggered -= DisplayGo;
+        InstanceManager.UIManager.OnFlashAnimEnded -= HideGo;
     }
 
     private void DisplayGo()
@@ -24,5 +26,10 @@ public class ReadyCountTimer : MonoBehaviour
         DOTween.Sequence()
             .Append(_textDisplay.DOFade(1, .2f).SetEase(_fadeIn)).Join(_textDisplay.transform.DOScale(1, .2f).SetEase(_fadeIn))
             .Play();
+    }
+
+    private void HideGo()
+    {
+        _textDisplay.text = "";
     }
 }
