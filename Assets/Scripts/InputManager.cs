@@ -54,7 +54,7 @@ public class InputManager : MonoBehaviour
     private bool _isTimerRunning;
 
 
-    private void OnEnable()
+    private void Start()
     {
         foreach (InputBinding binding in _bindings)
         {
@@ -66,16 +66,17 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    private void OnDisable()
-    {
-        foreach (InputBinding binding in _bindings)
-        {
-            binding.actionRef.action.canceled -= binding.BindStartInput;
-            binding.actionRef.action.started -= binding.BindCancelInput;
-            binding.OnInputBind -= UpdateInputs;
-            binding.actionRef.action.Disable();
-        }
-    }
+    //private void OnDestroy()
+    //{
+    //    return;
+    //    foreach (InputBinding binding in _bindings)
+    //    {
+    //        binding.actionRef.action.canceled -= binding.BindStartInput;
+    //        binding.actionRef.action.started -= binding.BindCancelInput;
+    //        binding.OnInputBind -= UpdateInputs;
+    //        binding.actionRef.action.Disable();
+    //    }
+    //}
 
     private void Awake()
     {
@@ -103,7 +104,7 @@ public class InputManager : MonoBehaviour
 
     public void UpdateInputs(int playerIndex, ActionType type, bool uncovered)
     {
-        //Debug.Log($"Updating input for player {playerIndex}: {type} is {(uncovered ? "un" : "")}covered.");
+        Debug.Log($"Updating input for player {playerIndex}: {type} is {(uncovered ? "un" : "")}covered.");
         _currentActions[playerIndex] = UpdatePosition(type, uncovered);
         OnPlayerPositionChanged?.Invoke(playerIndex, _currentActions[playerIndex]);
         //Debug.Log($"Player {playerIndex + 1}'s sword position has been updated to {_currentActions[playerIndex]}");

@@ -24,6 +24,7 @@ public class RetryAction : MonoBehaviour
             _returnCoroutine = null;
         }
         Debug.Log("RETRYING");
+
         InstanceManager.GameManager.LoadGamemodeScene(0);
     }
     private IEnumerator QueueReturnToMenu()

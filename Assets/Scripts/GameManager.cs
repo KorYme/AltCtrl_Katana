@@ -26,11 +26,13 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         InstanceManager.UIManager.OnReturnToMenuRequest += ReturnToMainMenu;
+        
     }
 
     private void OnDestroy()
     {
-        
+        InstanceManager.UIManager.OnReturnToMenuRequest -= ReturnToMainMenu;
+
     }
     private void Update()
     {
@@ -83,5 +85,6 @@ public class GameManager : MonoBehaviour
     private void ReturnToMainMenu()
     {
         _currentGameMode.StopGameMode();
+
     }
 }
