@@ -7,7 +7,6 @@ public class TutoGameMode : GameMode
 
     public override void StopGameMode()
     {
-        base.StopGameMode();
     }
 
     public override void UpdateGameMode(float deltaTime)

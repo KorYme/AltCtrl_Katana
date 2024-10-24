@@ -4,50 +4,60 @@ using UnityEngine.UI;
 
 public class MenuSelector : MonoBehaviour
 {
+    [SerializeField] private List<Button> _buttons;
+    [SerializeField] private float _secondsBeforeMovement;
 
-    protected bool _isTransitionComplete;
-
-    private void OnPlayerPositionChanged(int ind, ActionType state) => CheckPlayersState();
-    private void OnTransitionComplete() => _isTransitionComplete = true;
-
-
+    private int _currentIndex;
+    private int _indexModifier;
+    private float _movementTimer;
+    private bool _hasJustMoved;
+    
     private void Start()
     {
-        InstanceManager.InputManager.OnPlayerPositionChanged += OnPlayerPositionChanged;
-        InstanceManager.UIManager.OnTransitionComplete += OnTransitionComplete;
+        if (_buttons?.Count == 0)
+        {
+            Debug.Log("No buttons serialized");
+            return;
+        }
+        _hasJustMoved = false;
+        _currentIndex = 0;
+        _buttons?[_currentIndex].Select();
+        _movementTimer = _secondsBeforeMovement;
+        InstanceManager.InputManager.OnPlayerPositionChanged += OnSwordPositionChanged;
     }
 
     private void OnDestroy()
     {
-        InstanceManager.InputManager.OnPlayerPositionChanged -= OnPlayerPositionChanged;
-        InstanceManager.UIManager.OnTransitionComplete -= OnTransitionComplete;
+        InstanceManager.InputManager.OnPlayerPositionChanged -= OnSwordPositionChanged;
     }
 
-
-    private void CheckPlayersState()
+    private void Update()
     {
-        if (_isTransitionComplete) return;
-        bool arePlayersReady = true;
-        for (int i = 0; i < 2; i++)
+        _movementTimer -= Time.deltaTime;
+        if (_movementTimer <= 0f)
         {
-            var playerState = InstanceManager.InputManager.CurrentActions[i];
-            if (playerState != ActionType.Sheath)
-            {
-                arePlayersReady = false;
-                InstanceManager.UIManager.OnPlayerReadyStateUpdateRequest?.Invoke(i, false);
-            }
-            else
-            {
-                InstanceManager.UIManager.OnPlayerReadyStateUpdateRequest?.Invoke(i, true);
-                Debug.Log($"Player {i + 1} is ready !");
-            }
+            _hasJustMoved = false;
+            _movementTimer = _secondsBeforeMovement;
+            _currentIndex = (_currentIndex + _indexModifier + _buttons.Count) % _buttons.Count;
+            _buttons[_currentIndex].Select();
         }
-        if (arePlayersReady)
-        {
-            Debug.Log("BOTH PLAYERS READY. Launching transition...");
-            InstanceManager.UIManager.OnTransitionRequest?.Invoke();
-        }
-        else InstanceManager.UIManager.OnTransitionCancelRequest?.Invoke();
     }
 
+    private void OnSwordPositionChanged(int playerId, ActionType actionType)
+    {
+        if (playerId != 0) return;
+        if (_hasJustMoved && actionType == ActionType.Sheath)
+        {
+            _buttons[_currentIndex]?.onClick?.Invoke();
+            return;
+        }
+        _hasJustMoved = true;
+        _movementTimer = _secondsBeforeMovement;
+        _indexModifier = actionType switch
+        {
+            ActionType.Feint => -1,
+            ActionType.Counter => 1,
+            _ => 0
+        };
+    }
 }

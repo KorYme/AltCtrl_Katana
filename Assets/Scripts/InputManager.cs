@@ -82,7 +82,6 @@ public class InputManager : MonoBehaviour
         if (InstanceManager.InputManager != null)
         {
             Destroy(gameObject);
-            return;
         }
         InstanceManager.InputManager = this;
         transform.parent = null;
@@ -103,7 +102,7 @@ public class InputManager : MonoBehaviour
 
     public void UpdateInputs(int playerIndex, ActionType type, bool uncovered)
     {
-        //Debug.Log($"Updating input for player {playerIndex}: {type} is {(uncovered ? "un" : "")}covered.");
+        // Debug.Log($"Updating input for player {playerIndex}: {type} is {(uncovered ? "un" : "")}covered.");
         _currentActions[playerIndex] = UpdatePosition(type, uncovered);
         OnPlayerPositionChanged?.Invoke(playerIndex, _currentActions[playerIndex]);
         //Debug.Log($"Player {playerIndex + 1}'s sword position has been updated to {_currentActions[playerIndex]}");

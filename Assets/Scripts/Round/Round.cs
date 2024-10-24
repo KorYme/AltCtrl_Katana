@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public enum RoundResult
@@ -17,8 +16,6 @@ public abstract class Round
     protected float _roundTime = -1f;
 
     public event Action<RoundResult> OnRoundEnd;
-    
-    protected RoundResult _roundResult = RoundResult.OnGoing;
 
     public virtual void StartRound(RoundData data)
     {

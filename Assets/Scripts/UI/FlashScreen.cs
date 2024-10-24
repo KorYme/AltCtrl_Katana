@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class FlashScreen : MonoBehaviour
@@ -17,19 +18,8 @@ public class FlashScreen : MonoBehaviour
         InstanceManager.UIManager.OnDuelFinished -= StartFlash;
     }
     
-    private void StartFlash(RoundResult roundResult)
+    private void StartFlash()
     {
-        switch (roundResult)
-        {
-            case RoundResult.Player1Victory:
-                transform.rotation = Quaternion.Euler(0, 0, 0);
-                break;
-            case RoundResult.Player2Victory:
-                transform.rotation = Quaternion.Euler(0, 180, 0);
-                break;
-            default:
-                return;
-        }
         _animator.SetTrigger(FlashAnimId);
     }
     

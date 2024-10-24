@@ -16,5 +16,3 @@ MonoBehaviour:
   <MaxRoundTime>k__BackingField: 20
   _triggerMinTime: 1
   _triggerMaxTime: 15
-  <MinimumActionToCount>k__BackingField: 0
-  <DelayAfterInput>k__BackingField: 1.15

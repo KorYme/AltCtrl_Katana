@@ -19,7 +19,6 @@ public class MatchGameMode : GameMode
     {
         _currentRound?.StopRound(RoundResult.Draw);
         _currentRound = null;
-        base.StopGameMode();
     }
 
     public override void UpdateGameMode(float deltaTime)
