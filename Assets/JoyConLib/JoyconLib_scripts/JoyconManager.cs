@@ -3,9 +3,10 @@ using System.Runtime.InteropServices;
 
 using UnityEngine;
 using System;
+using UnityEngine.Serialization;
+
 public class JoyconManager: MonoBehaviour
 {
-
     // Settings accessible via Unity
     public bool EnableIMU = true;
     public bool EnableLocalize = true;
@@ -17,18 +18,32 @@ public class JoyconManager: MonoBehaviour
 	private const ushort product_r = 0x2007;
 
     public List<Joycon> j; // Array of all connected Joy-Cons
-    static JoyconManager instance;
 
-    public static JoyconManager Instance
+    [FormerlySerializedAs("_displayQuaternions")] [SerializeField] private bool _displayDebug;
+
+    [SerializeField, Range(0f, 1f)] private float _bowPercentage;
+    [SerializeField, Range(0f, 5f)] private float _bowTimeDifference;
+    public event Action OnPlayersBow;
+
+    private PlayersBowState _playersState = PlayersBowState.NotPossible;
+    private float _playersBowTime = -1f;
+    
+    enum PlayersBowState
     {
-        get { return instance; }
+	    NotPossible,
+	    ReadyToBow,
+	    ReadyToStand,
     }
-
+    
     void Awake()
     {
-        if (instance != null) Destroy(gameObject);
-        instance = this;
-		int i = 0;
+        if (InstanceManager.JoyconManager != null)
+        {
+	        Destroy(gameObject);
+        }
+	    InstanceManager.JoyconManager = this;
+	    transform.parent = null;
+	    DontDestroyOnLoad(gameObject);
 
 		j = new List<Joycon>();
 		bool isLeft = false;
@@ -64,7 +79,6 @@ public class JoyconManager: MonoBehaviour
 					IntPtr handle = HIDapi.hid_open_path (enumerate.path);
 					HIDapi.hid_set_nonblocking (handle, 1);
 					j.Add (new Joycon (handle, EnableIMU, EnableLocalize & EnableIMU, 0.05f, isLeft));
-					++i;
 				}
 				ptr = enumerate.next;
 			}
@@ -75,7 +89,6 @@ public class JoyconManager: MonoBehaviour
     {
 		for (int i = 0; i < j.Count; ++i)
 		{
-			Debug.Log (i);
 			Joycon jc = j [i];
 			byte LEDs = 0x0;
 			LEDs |= (byte)(0x1 << i);
@@ -90,13 +103,68 @@ public class JoyconManager: MonoBehaviour
 		{
 			j[i].Update();
 		}
+		if (j.Count < 2)
+		{
+			_playersState = PlayersBowState.NotPossible;
+			return;
+		}
+		Quaternion p1 = j[0].GetVector();
+		Quaternion p2 = j[1].GetVector();
+		switch (_playersState)
+		{
+			case PlayersBowState.NotPossible:
+			case PlayersBowState.ReadyToStand:
+				if (Math.Abs(p1.z) < _bowPercentage && Math.Abs(p1.w) < _bowPercentage && Math.Abs(p2.z) < _bowPercentage && Math.Abs(p2.w) < _bowPercentage)
+				{
+					if (_playersState == PlayersBowState.ReadyToStand)
+					{
+						OnPlayersBow?.Invoke();
+					}
+					_playersBowTime = _bowTimeDifference;
+					_playersState = PlayersBowState.ReadyToBow;
+				}
+				break;
+			case PlayersBowState.ReadyToBow:
+				_playersBowTime = _bowTimeDifference;
+				if ((Math.Abs(p1.z) >= _bowPercentage || Math.Abs(p1.w) >= _bowPercentage) && (Math.Abs(p2.w) >= _bowPercentage || Math.Abs(p2.z) >= _bowPercentage))
+				{
+					_playersState = PlayersBowState.ReadyToStand;
+				}
+				break;
+		}
+
+		if (_playersBowTime > 0)
+		{
+			_playersBowTime -= Time.deltaTime;
+			if (_playersBowTime <= 0)
+			{
+				_playersState = PlayersBowState.NotPossible;
+			}
+		}
     }
 
+    public void ResetPlayersState()
+    {
+	    _playersState = PlayersBowState.NotPossible;
+    }
+    
     void OnApplicationQuit()
     {
 		for (int i = 0; i < j.Count; ++i)
 		{
 			j[i].Detach ();
 		}
+    }
+
+    private void OnGUI()
+    {
+	    if (_displayDebug)
+	    {
+		    GUI.Label(new Rect(10, 10, 1920, 20), _playersState.ToString());
+		    for (int i = 0; i < j.Count; i++)
+		    {
+				GUI.Label(new Rect(10, 250 + 20 * i, 1920, 20), j[i].GetVector().ToString());
+		    }
+	    }
     }
 }
