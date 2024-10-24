@@ -82,6 +82,7 @@ public class InputManager : MonoBehaviour
         if (InstanceManager.InputManager != null)
         {
             Destroy(gameObject);
+            return;
         }
         InstanceManager.InputManager = this;
         transform.parent = null;

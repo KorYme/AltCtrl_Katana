@@ -19,8 +19,6 @@ public class JoyconManager: MonoBehaviour
 
     public List<Joycon> j; // Array of all connected Joy-Cons
 
-    [FormerlySerializedAs("_displayQuaternions")] [SerializeField] private bool _displayDebug;
-
     [SerializeField, Range(0f, 1f)] private float _bowPercentage;
     [SerializeField, Range(0f, 5f)] private float _bowTimeDifference;
     public event Action OnPlayersBow;
@@ -40,6 +38,7 @@ public class JoyconManager: MonoBehaviour
         if (InstanceManager.JoyconManager != null)
         {
 	        Destroy(gameObject);
+	        return;
         }
 	    InstanceManager.JoyconManager = this;
 	    transform.parent = null;
@@ -156,15 +155,12 @@ public class JoyconManager: MonoBehaviour
 		}
     }
 
-    private void OnGUI()
-    {
-	    if (_displayDebug)
-	    {
-		    GUI.Label(new Rect(10, 10, 1920, 20), _playersState.ToString());
-		    for (int i = 0; i < j.Count; i++)
-		    {
-				GUI.Label(new Rect(10, 250 + 20 * i, 1920, 20), j[i].GetVector().ToString());
-		    }
-	    }
-    }
+   //  private void OnGUI()
+   //  {
+	  //   GUI.Label(new Rect(10, 10, 1920, 20), _playersState.ToString());
+	  //   for (int i = 0; i < j.Count; i++)
+	  //   {
+			// GUI.Label(new Rect(10, 250 + 20 * i, 1920, 20), j[i].GetVector().ToString());
+	  //   }
+   //  }
 }

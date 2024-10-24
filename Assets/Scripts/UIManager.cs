@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
         if (InstanceManager.UIManager != null)
         {
             Destroy(gameObject);
+            return;
         }
         InstanceManager.UIManager = this;
         transform.parent = null;
