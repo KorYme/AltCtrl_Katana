@@ -3,6 +3,7 @@ using UnityEngine;
 public class CharactersBehaviour : MonoBehaviour
 {
     private readonly int _attackTrigger = Animator.StringToHash("Attack");
+    private readonly int _deathTrigger = Animator.StringToHash("Death");
     
     [SerializeField] private Animator _redSamuraiAnimator;
     [SerializeField] private Animator _blueSamuraiAnimator;
@@ -46,10 +47,10 @@ public class CharactersBehaviour : MonoBehaviour
         switch (roundResult)
         {
             case RoundResult.Player1Victory:
-                _redSamuraiAnimator.transform.rotation *= Quaternion.Euler(0, 0, -60); // REPLACE WITH ANIMATION CHANGE
+                _redSamuraiAnimator.SetTrigger(_deathTrigger);
                 return;
             case RoundResult.Player2Victory:
-                _blueSamuraiAnimator.transform.rotation *= Quaternion.Euler(0, 0, -60); // REPLACE WITH ANIMATION CHANGE
+                _blueSamuraiAnimator.SetTrigger(_deathTrigger);
                 return;
             default:
                 return;
