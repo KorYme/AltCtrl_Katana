@@ -46,6 +46,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnableIMU: 1
   EnableLocalize: 1
-  _displayDebug: 0
-  _bowPercentage: 0.15
+  _bowPercentage: 0.25
   _bowTimeDifference: 1.5
