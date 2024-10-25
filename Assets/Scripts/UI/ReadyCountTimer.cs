@@ -11,13 +11,15 @@ public class ReadyCountTimer : MonoBehaviour
     private void Start()
     {
         InstanceManager.UIManager.OnDuelTriggered += DisplayGo;
-        InstanceManager.UIManager.OnFlashAnimEnded += HideGo;
+        InstanceManager.UIManager.OnDuelFalseStart += HideGo;
+        InstanceManager.UIManager.OnDisplayWinner += HideGo;
     }
     
     private void OnDestroy()
     {
         InstanceManager.UIManager.OnDuelTriggered -= DisplayGo;
-        InstanceManager.UIManager.OnFlashAnimEnded -= HideGo;
+        InstanceManager.UIManager.OnDuelFalseStart -= HideGo;
+        InstanceManager.UIManager.OnDisplayWinner -= HideGo;
     }
 
     private void DisplayGo()
@@ -31,5 +33,13 @@ public class ReadyCountTimer : MonoBehaviour
     private void HideGo()
     {
         _textDisplay.text = "";
+    }
+    
+    private void HideGo(RoundResult roundResult)
+    {
+        _textDisplay.text = "";
+        if (roundResult == RoundResult.Draw)
+        {
+        }
     }
 }

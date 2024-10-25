@@ -11,16 +11,18 @@ public class RetryAction : MonoBehaviour
     
     private void Start()
     {
-        InstanceManager.UIManager.OnDuelFinished += StartGameOptions;
+        InstanceManager.UIManager.OnFlashAnimEnded += StartGameOptions;
+        InstanceManager.UIManager.OnDuelFalseStart += StartGameOptions;
     }
     
     private void OnDestroy()
     {
-        InstanceManager.UIManager.OnDuelFinished -= StartGameOptions;
+        InstanceManager.UIManager.OnFlashAnimEnded -= StartGameOptions;
+        InstanceManager.UIManager.OnDuelFalseStart -= StartGameOptions;
         InstanceManager.JoyconManager.OnPlayersBow -= Retry;
     }
     
-    private void StartGameOptions(RoundResult nah) => _returnCoroutine = StartCoroutine(QueueReturnToMenu());
+    private void StartGameOptions() => _returnCoroutine = StartCoroutine(QueueReturnToMenu());
 
     private void Retry()
     {

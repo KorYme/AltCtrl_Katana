@@ -22,6 +22,7 @@ public class BlackTapes : MonoBehaviour
     {
         InstanceManager.UIManager.OnDuelStarted += OnBlackTapeDisplay;
         InstanceManager.UIManager.OnDuelTriggered += OnBlackTapeHide;
+        InstanceManager.UIManager.OnDuelFalseStart += OnBlackTapeHide;
         if (_blackTapes?.Count != 0)
         {
             Vector2 targetSize = new Vector2(_blackTapes[0].Rect.sizeDelta.x, 0);
@@ -37,6 +38,7 @@ public class BlackTapes : MonoBehaviour
     {
         InstanceManager.UIManager.OnDuelStarted -= OnBlackTapeDisplay;
         InstanceManager.UIManager.OnDuelTriggered -= OnBlackTapeHide;
+        InstanceManager.UIManager.OnDuelFalseStart -= OnBlackTapeHide;
     }
 
     private void OnBlackTapeDisplay()
