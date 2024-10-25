@@ -66,7 +66,7 @@ public class RetryAction : MonoBehaviour
         InstanceManager.AudioManager.StopAllClips();
         InstanceManager.AudioManager.PlayClip("RoundEnd");
         InstanceManager.UIManager.OnShowRetryActionRequest?.Invoke(true);
-
+    
         //_UIReturnCoroutine = StartCoroutine(UIShowGameOptions()); // ANIM
         float elapsedT = 0;
         while (elapsedT < _returnToMenuLag)

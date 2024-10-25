@@ -83,13 +83,19 @@ public class CharactersBehaviour : MonoBehaviour
                 RedSamuraiAnimator.SetTrigger(_deathTrigger);
                 BlueSamuraiAnimator.gameObject.SetActive(false);
                 BlueSamuraiVictoryImage.enabled = true;
-                InstanceManager.JoyconManager.j[1].SetRumble(160, 320, 0.6f, 200);
+                if (InstanceManager.JoyconManager.j.Count >= 2)
+                {
+                    InstanceManager.JoyconManager.j[1].SetRumble(160, 320, 0.6f, 200);
+                }
                 return;
             case RoundResult.Player2Victory:
                 BlueSamuraiAnimator.SetTrigger(_deathTrigger);
                 RedSamuraiAnimator.gameObject.SetActive(false);
                 RedSamuraiVictoryImage.enabled = true;
-                InstanceManager.JoyconManager.j[0].SetRumble(160, 320, 0.6f, 200);
+                if (InstanceManager.JoyconManager.j.Count >= 2)
+                {
+                    InstanceManager.JoyconManager.j[0].SetRumble(160, 320, 0.6f, 200);
+                }
                 return;
             default:
                 return;
