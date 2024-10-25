@@ -64,9 +64,11 @@ public class CharactersBehaviour : MonoBehaviour
         {
             case RoundResult.Player1Victory:
                 BlueSamuraiAnimator.SetTrigger(_attackTrigger);
+                InstanceManager.AudioManager.PlayClip("Attack1");
                 break;
             case RoundResult.Player2Victory:
                 RedSamuraiAnimator.SetTrigger(_attackTrigger);
+                InstanceManager.AudioManager.PlayClip("Attack2");
                 break;
             default:
                 return;

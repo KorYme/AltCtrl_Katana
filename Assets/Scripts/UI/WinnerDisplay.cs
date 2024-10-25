@@ -1,11 +1,13 @@
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WinnerDisplay : MonoBehaviour
 {
     [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private TMP_Text _textComponent;
+    [SerializeField] private Image _winnerImage;
     [SerializeField, Min(0.1f)] private float _fadeDuration;
     [SerializeField] private Ease _fadeEase;
     
@@ -28,6 +30,10 @@ public class WinnerDisplay : MonoBehaviour
             RoundResult.Player2Victory => "Player 2 Victory",
             _ => "Bad Result returned",
         });
+        //_winnerImage.sprite = result switch
+        //{
+        //    RoundResult.Draw = 
+        //};
         _canvasGroup.DOFade(1, _fadeDuration).SetEase(_fadeEase);
     }
 }

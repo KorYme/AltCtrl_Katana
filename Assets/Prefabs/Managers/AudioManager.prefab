@@ -56,7 +56,7 @@ MonoBehaviour:
     Pitch: 1
     IsLoop: 0
   - Name: Prepare
-    AudioClip: {fileID: 8300000, guid: 476894fdc77f3024e94d9cc8be6817eb, type: 3}
+    AudioClip: {fileID: 8300000, guid: 2197c5331573e4b4688927d710787ae7, type: 3}
     Volume: 0.2
     Pitch: 1
     IsLoop: 0
@@ -72,12 +72,12 @@ MonoBehaviour:
     IsLoop: 0
   - Name: Attack1
     AudioClip: {fileID: 8300000, guid: 307ad712a15729340a6a7784865a8c6e, type: 3}
-    Volume: 0.2
+    Volume: 1
     Pitch: 1
     IsLoop: 0
   - Name: Attack2
     AudioClip: {fileID: 8300000, guid: 573da728861d8a546917183f172385a1, type: 3}
-    Volume: 0.2
+    Volume: 1
     Pitch: 1
     IsLoop: 0
   - Name: Parry1
