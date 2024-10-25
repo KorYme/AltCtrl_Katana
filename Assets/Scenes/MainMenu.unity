@@ -281,6 +281,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2364501964321259693, guid: 72722df7301fd6848a9edf95e5169434, type: 3}
+      propertyPath: _bowTimeDifference
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2364501964321259693, guid: 72722df7301fd6848a9edf95e5169434, type: 3}
       propertyPath: _displayQuaternions
       value: 1
       objectReference: {fileID: 0}

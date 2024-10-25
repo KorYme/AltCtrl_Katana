@@ -47,4 +47,4 @@ MonoBehaviour:
   EnableIMU: 1
   EnableLocalize: 1
   _bowPercentage: 0.25
-  _bowTimeDifference: 1.5
+  _bowTimeDifference: 5
