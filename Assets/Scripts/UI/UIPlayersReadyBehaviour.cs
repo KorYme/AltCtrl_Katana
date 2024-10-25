@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class UIPlayersReadyBehaviour : MonoBehaviour
 {
     [Header("Transition Parameters")]
-    [SerializeField] private float _transitionDuration;
+    [SerializeField] private float _transitionSpeed;
     [SerializeField] private AnimationCurve _transitionEaseEffect;
     [SerializeField] private AnimationCurve _transitionCancelEaseEffect;
 
@@ -46,7 +46,7 @@ public class UIPlayersReadyBehaviour : MonoBehaviour
 
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         UIProcessTransition();
     }
@@ -86,9 +86,9 @@ public class UIPlayersReadyBehaviour : MonoBehaviour
     {
         if (!_isTransitionning) return;
 
-        _currentElapsedTime += _isTransitionCanceled ? -Time.fixedDeltaTime : Time.fixedDeltaTime;
-        _currentElapsedTime = Mathf.Clamp(_currentElapsedTime, 0, _transitionDuration);
-        float t = _isTransitionCanceled ? 1 - (_currentElapsedTime / _transitionDuration) : _currentElapsedTime / _transitionDuration;
+        _currentElapsedTime += _isTransitionCanceled ? _transitionSpeed * -Time.fixedDeltaTime : _transitionSpeed * Time.fixedDeltaTime;
+        _currentElapsedTime = Mathf.Clamp(_currentElapsedTime, 0, _transitionSpeed);
+        float t = _isTransitionCanceled ? 1 - (_currentElapsedTime / _transitionSpeed) : _currentElapsedTime / _transitionSpeed;
         t = _isTransitionCanceled ? _transitionCancelEaseEffect.Evaluate(t) : _transitionEaseEffect.Evaluate(t);
         
 
@@ -98,7 +98,7 @@ public class UIPlayersReadyBehaviour : MonoBehaviour
         UISwordList[0].rectTransform.position = p1LerpVect;
         UISwordList[1].rectTransform.position = p2LerpVect;
 
-        if (_currentElapsedTime >= _transitionDuration)
+        if (_currentElapsedTime >= _transitionSpeed)
         {
             _isTransitionning = false;
             _isTransitionComplete = true;
