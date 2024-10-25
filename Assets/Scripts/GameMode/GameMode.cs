@@ -1,4 +1,8 @@
+using System.Collections;
+using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 
 public enum GamemodeType
 {
@@ -9,17 +13,19 @@ public enum GamemodeType
 public abstract class GameMode : MonoBehaviour
 {
     public abstract GamemodeType Type { get; }
-    
+
     protected Round _currentRound;
 
     [SerializeField] protected string _sceneName;
-    
+    public string SceneName => _sceneName;
+
     public abstract void StartGameMode();
-    public abstract void StopGameMode();
+    public virtual void StopGameMode()
+    {
+        SceneManager.LoadScene(0);
+    }
     public abstract void UpdateGameMode(float deltaTime);
 
-    protected virtual void OnStartNewRound()
-    {
-        
-    }
+
+
 }

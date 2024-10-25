@@ -23,8 +23,10 @@ public class AudioManager : MonoBehaviour
         if (InstanceManager.AudioManager != null)
         {
             Destroy(gameObject);
+            return;
         }
         InstanceManager.AudioManager = this;
+        transform.parent = null;
         DontDestroyOnLoad(gameObject);
     }
 
