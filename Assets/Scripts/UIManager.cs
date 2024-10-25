@@ -31,6 +31,8 @@ public class UIManager : MonoBehaviour
     public Action<RoundResult> OnDuelInput;
     // Called when feedbacks are played X secondes after a player made its input
     public Action<RoundResult> OnDuelFinished;
+    // Called when player inputs is triggered too soon
+    public Action OnDuelFalseStart;
 
     // UPDATE
     public Action OnTransitionComplete;

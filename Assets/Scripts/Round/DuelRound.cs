@@ -19,7 +19,7 @@ public class DuelRound : Round
         InstanceManager.AudioManager.PlayClip("NewRound");
         InstanceManager.AudioManager.PlayClip("Prepare");
         InstanceManager.AudioManager.PlayClip("DuelTheme");
-        InstanceManager.InputManager.OnPlayerActionInput += OnPlayerActionInput;
+        // InstanceManager.InputManager.OnPlayerActionInput += OnPlayerActionInput;
         InstanceManager.InputManager.OnPlayerPositionChanged += OnPlayerPositionChanged;
         // ADD WAITING OR PREPARING UI
         base.StartRound(data);
@@ -38,7 +38,7 @@ public class DuelRound : Round
 
     public override void StopRound(RoundResult result)
     {
-        InstanceManager.InputManager.OnPlayerActionInput -= OnPlayerActionInput;
+        // InstanceManager.InputManager.OnPlayerActionInput -= OnPlayerActionInput;
         InstanceManager.InputManager.OnPlayerPositionChanged -= OnPlayerPositionChanged;
         base.StopRound(result);
     }
@@ -81,16 +81,55 @@ public class DuelRound : Round
 
     protected void OnPlayerPositionChanged(int playerId, ActionType action)
     {
-        if (action == ActionType.Sheath || _startTimer <= 0f)
+        if (_startTimer <= 0f)
         {
-            return;
+            if (_duelActions.TryGetValue(playerId, out ActionType actionType) && action > actionType)
+            {
+                _duelActions[playerId] = action;
+            }
+            if (action == ActionType.Sheath && _duelActions[playerId] >= _minimumAction)
+            {
+                _roundResult = playerId switch
+                {
+                    0 => RoundResult.Player1Victory,
+                    1 => RoundResult.Player2Victory,
+                    _ => RoundResult.Draw,
+                };
+                InstanceManager.UIManager.OnDuelInput.Invoke(_roundResult);
+            }
         }
-        StopRound(playerId != 0 ? RoundResult.Player1Victory : RoundResult.Player2Victory);
+        else if (action != ActionType.Sheath && _roundResult == RoundResult.OnGoing)
+        {
+            _roundResult = playerId switch
+            {
+                0 => RoundResult.Player2Victory,
+                1 => RoundResult.Player1Victory,
+                _ => RoundResult.Draw,
+            };
+            InstanceManager.UIManager.OnDuelFalseStart?.Invoke();
+            StopRound(playerId != 0 ? RoundResult.Player1Victory : RoundResult.Player2Victory);
+        }
     }
 
     public override void Update(float deltaTime)
     {
-        if (_roundResult != RoundResult.OnGoing && _delayTimer > 0f)
+        if (_roundResult == RoundResult.OnGoing)
+        {
+            if (_startTimer <= 0f)
+            {
+                base.Update(deltaTime);
+            }
+            else
+            {
+                _startTimer -= deltaTime;
+                if (_startTimer <= 0f)
+                {
+                    InstanceManager.UIManager.OnDuelTriggered?.Invoke();
+                    InstanceManager.AudioManager.PlayClip(_data.StartRoundClipName);
+                }
+            }
+        }
+        else if (_delayTimer > 0f && _startTimer <= 0f)
         {
             _delayTimer -= deltaTime;
             if (_delayTimer <= 0f)
@@ -103,21 +142,6 @@ public class DuelRound : Round
                     StopRound(_roundResult);
                 }
             }
-        }
-        if (_roundResult != RoundResult.OnGoing)
-        {
-            return;
-        }
-        if (_startTimer <= 0f)
-        {
-            base.Update(deltaTime);
-            return;
-        }
-        _startTimer -= deltaTime;
-        if (_startTimer <= 0f)
-        {
-            InstanceManager.UIManager.OnDuelTriggered?.Invoke();
-            InstanceManager.AudioManager.PlayClip(_data.StartRoundClipName);
         }
     }
 }
