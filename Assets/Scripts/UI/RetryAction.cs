@@ -62,7 +62,7 @@ public class RetryAction : MonoBehaviour
     private IEnumerator QueueReturnToMenu()
     {
         InstanceManager.JoyconManager.OnPlayersBow += Retry;
-        InstanceManager.JoyconManager.ResetPlayersState();
+        InstanceManager.JoyconManager.ResetPlayersState();                                               
         InstanceManager.AudioManager.StopAllClips();
         InstanceManager.AudioManager.PlayClip("RoundEnd");
         InstanceManager.UIManager.OnShowRetryActionRequest?.Invoke(true);

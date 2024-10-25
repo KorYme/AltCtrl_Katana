@@ -79,13 +79,17 @@ public class DuelRound : Round
             }
             if (action == ActionType.Sheath && _duelActions[playerId] >= _minimumAction)
             {
-                _roundResult = playerId switch
+                RoundResult result  = playerId switch
                 {
                     0 => RoundResult.Player1Victory,
                     1 => RoundResult.Player2Victory,
                     _ => RoundResult.Draw,
                 };
-                InstanceManager.UIManager.OnDuelInput.Invoke(_roundResult);
+                if (_roundResult == RoundResult.OnGoing)
+                {
+                    _roundResult = result;
+                }
+                InstanceManager.UIManager.OnDuelInput.Invoke(result);
             }
         }
         else if (action != ActionType.Sheath && _roundResult == RoundResult.OnGoing)

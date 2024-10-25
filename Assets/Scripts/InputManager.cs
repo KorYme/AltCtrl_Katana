@@ -25,7 +25,6 @@ public class InputManager : MonoBehaviour
 
         public Action<int, ActionType, bool> OnInputBind;
 
-
         public void BindStartInput(InputAction.CallbackContext ctx)
         {
             OnInputBind?.Invoke(playerID, bindType, true);
@@ -58,7 +57,6 @@ public class InputManager : MonoBehaviour
     {
         foreach (InputBinding binding in _bindings)
         {
-            
             binding.actionRef.action.Enable();
             binding.actionRef.action.canceled += binding.BindStartInput;
             binding.actionRef.action.started += binding.BindCancelInput;
