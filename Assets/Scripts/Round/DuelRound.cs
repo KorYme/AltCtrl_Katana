@@ -45,17 +45,7 @@ public class DuelRound : Round
     
     protected void OnPlayerActionInput(int playerId, ActionType action)
     {
-        switch (playerId)
-        {
-            case 0:
-                if(action == ActionType.Counter) InstanceManager.AudioManager.PlayClip("Parry1");
-                else InstanceManager.AudioManager.PlayClip("Attack1");
-                break;
-            case 1:
-                if (action == ActionType.Counter) InstanceManager.AudioManager.PlayClip("Parry2");
-                InstanceManager.AudioManager.PlayClip("Attack2");
-                break;
-        }
+
         if (_startTimer > 0f || _roundResult != RoundResult.OnGoing)
         {
             return;
